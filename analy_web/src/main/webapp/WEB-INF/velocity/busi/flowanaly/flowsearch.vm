@@ -1,0 +1,53 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="搜索排行")
+
+<h2 class="sub-header">
+	<span class="small">$BUSI_TITLE</span>
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="搜索排行主要是对供货商店铺的搜索整体情况进行统计和分析" ></i>
+</h2>
+
+<div class="panel panel-default">
+    #parse("busi/common/paramsbar.vm")
+	<div class="panel-body">
+		<h4 class="text-left">
+        	<i class="glyphicon glyphicon-equalizer"></i>
+         	<b>流量总览 </b>
+        </h4>
+        <div class="row placeholders" id="searchOverviewDiv">
+			
+        </div>
+							
+		<h4 class="text-left sub-header">
+			<i class="glyphicon glyphicon-equalizer"></i>
+		 	<b>平台热词TOP10</b>
+			<span class="pull-right btn btn-default btn-sm" onclick="getPlatformSearchDate(true)">
+        	 查看更多明细
+            </span>
+            <span class="pull-right btn btn-default btn-sm" onclick="exportPlatformSearch()">
+        	 导出
+            </span>
+		</h4>
+		<div class="table-responsive" id="platformSearchTableId">
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="SearchDateModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="SearchDateModalLabel">标题</h3>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" id="SearchTableId">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/flowanaly/flowsearch.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

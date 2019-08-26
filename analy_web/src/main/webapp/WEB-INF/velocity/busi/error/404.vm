@@ -1,0 +1,26 @@
+##set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="哎呀，你访问的页面不见了~~")
+<link rel="stylesheet" type="text/css" href="http://www.woego.cn/woego/css/errorAndOther.css"/>
+<style type="text/css">
+	.errorWord{float:right;width:400px;margin-top:0;padding:0 0 80px;}
+</style>
+<div class="errorMain">
+	<div class="boxShadow"></div>
+	<div class="errorSection">
+        <div class="errorWord">
+        	<p><strong>哎呀，你访问的页面不见了~~</strong></p>
+            <dl>
+            	<dt>最有可能的原因是：</dt>
+                <dd>你网址可能不正确</dd>
+                <dd>链接可能已过期</dd>
+            </dl>
+            <p><font>可以点击链接继续浏览：</font></p>
+            <p>
+            	 <a href="$CONTEXT_PATH">首页</a>
+				|<a href="javascript:history.go(-1)">返回上一页</a>
+			</p>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

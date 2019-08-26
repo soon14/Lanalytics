@@ -1,0 +1,49 @@
+##数字格式化  参数为 "#0.0","#0.##" 。。。
+#macro(formatNumber $input $formater)
+#if($input && $formater)
+${aiTool.formatNumber("$input","$formater")}##
+#else
+$input
+#end
+#end
+
+##数字格式化  参数为 "#0.0%","#0.##" 。。。
+#macro(percentNumber $input $formater)
+#if($input && $formater)
+${aiTool.showPercentNumber("$input","$formater")}##
+#else
+$input
+#end
+#end
+
+##数字格式化  参数为 "#0.0","#0.##" 。。。
+#macro(moneyNumber $input $formater)
+#if($input && $formater)
+${aiTool.showMoneyNumber("$input","$formater")}##
+#else
+$input
+#end
+#end
+
+##根据url返回对应的页面名称
+#macro(formatUrlToName $input)
+#if($input)
+$!{aiTool.formatUrlToName("$input")}##
+#else
+$input
+#end
+#end
+
+##时间格式化  参数为 "yyyyMMdd HH:mm:ss"
+#macro(dateFormat $input $formater)
+#if($input && $formater)
+$!{date.format("$formater",$input)}##
+#else
+$!{input}
+#end
+#end
+
+##$input格式 sdfafaddfafd_100*100_.jpg
+#macro(getGdsImgUrl $input)
+$!{aiTool.getSysConf('pmphImageUrl')}$input
+#end

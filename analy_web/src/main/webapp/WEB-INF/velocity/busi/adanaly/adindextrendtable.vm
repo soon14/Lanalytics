@@ -1,0 +1,35 @@
+#set($layout = "temp_layout.vm")
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>日期</th>
+            <th>访客量</th>
+            <th>浏览量</th>
+    	    <th>下单率</th>
+    	    <th>支付成功率</th>
+        </tr>
+    </thead>
+    <tbody>
+        #if($data.recordList && $data.recordList.size()>0)
+            #foreach($row in $data.recordList)
+                <tr>
+                	<td>$!{row.dt}</td>
+                	<td>$!{row.pv}</td>
+                    <td>$!{row.uv}</td>
+                    <td>#percentNumber("$!{row.orderUvRate}","#0.0")</td>
+                    <td>#percentNumber("$!{row.payUvRate}","#0.0")</td>
+                </tr>
+			#end
+		#else
+                <tr>
+                    <td colspan="20">暂无数据</td>
+                </tr>
+		#end
+		
+    </tbody>
+</table>
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="adIndexTrendTablePager" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+    </span>
+</div>
+

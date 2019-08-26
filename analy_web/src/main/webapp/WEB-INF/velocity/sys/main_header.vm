@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand logo" href="$CONTEXT_PATH"><em><img src="$IMAGE_PATH/logo.png" ></em>
+            <strong>用户行为分析</strong>
+        </a>
+    </div>
+	
+	#set($sessionStaff = $session.getAttribute("analystaffSession"))
+	#set($sessionShops = $sessionStaff.shops)
+    <div id="navbar" class="navbar-collapse collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>$!{sessionStaff.userName}</span>
+                    <span class="caret"></span>
+                </a>
+				<ul class="dropdown-menu">
+		           <li><a href="$CONTEXT_PATH/j_spring_security_logout">退出登录</a></li>
+		        </ul>
+            </li>
+            <li>
+                <a href="${aiTool.getSysConf('pmphMainPage')}">
+                    <i class="glyphicon glyphicon-share-alt"></i>
+                    <span>管理平台 </span>
+                </a>
+            </li>
+        </ul>
+		
+		#if($sessionShops && $sessionShops.size()>0)
+		<ul class="nav navbar-nav navbar-right">
+			 <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <span id="defaultShopName">店铺：  $!{sessionStaff.shopName}</span>
+                    <span class="caret"></span>
+                </a>
+				<ul class="dropdown-menu">
+					#foreach($shop in $sessionShops)
+					<li #if(${sessionStaff.shopId} == ${shop.shopId}) class="active" #end>
+                        <a href="javascript:void();" onclick="selectShop('$shop.shopId')">$!{shop.shopName}</a>
+                    </li>
+					#end
+		        </ul>
+            </li>
+		</ul>
+		#end
+    </div>
+</div>
+<script type="text/javascript">
+   function selectShop(shopId){
+	   //window.location.href = WEB_ROOT+"${request.getServletPath()}?shopid="+shopId;
+	   
+	   window.location.href = WEB_ROOT+"/flowAnaly/flowbasic?shopid="+shopId;
+   }
+</script>

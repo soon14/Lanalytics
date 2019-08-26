@@ -1,0 +1,9 @@
+#set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+
+<option value="" selected >全部模板</option>
+#if($templates && $templates.size()>0)
+    #foreach($row in $templates)
+        <option value="$!{row.id}">$!{row.templateName}</option>
+    #end
+#end

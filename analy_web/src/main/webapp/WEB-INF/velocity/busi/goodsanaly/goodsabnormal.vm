@@ -1,0 +1,35 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="异常商品")
+
+<link href="$CSS_PATH/tablesorter.default.css" rel="stylesheet">
+	
+<h2 class="sub-header">
+	<span class="small">$BUSI_TITLE</span>
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="异常商品是对店铺最近7天的流量下跌、支付转化率下跌、零销量、零库存、投诉率高的商品进行展示。" ></i>
+</h2>
+	
+<div class="panel panel-default">
+    <div class="panel-heading">
+    	<ul class="nav nav-pills" id="goodsAbnormalNav">
+    	  <li abnormaType="1" class="active"><a href="javascript:void(0);">流量下跌<span class="badge">$!{abnormalGdsCountVo.gdsFlowDownCoun}</span></a></li>
+    	  <li abnormaType="2"><a href="javascript:void(0);">支付转化率下跌<span class="badge">$!{abnormalGdsCountVo.payUvRateDownCoun}</span></a></li>
+    	  <li abnormaType="3"><a href="javascript:void(0);">零销量<span class="badge">$!{abnormalGdsCountVo.sellZeroCoun}</span></a></li>
+		  <li abnormaType="4"><a href="javascript:void(0);">零库存<span class="badge">$!{abnormalGdsCountVo.stockZeroCoun}</span></a></li>
+		  <li abnormaType="5"><a href="javascript:void(0);">库存预警<span class="badge">$!{abnormalGdsCountVo.stockWarningCoun}</span></a></li>
+    	</ul>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive" id="goodsAbnormalTableId">
+        </div>
+		
+	    <h4 class="text-left sub-header">
+			<i class="glyphicon glyphicon-equalizer"></i>
+		 	<b>服务分析</b>
+		</h4>
+		<div id="goodsAbnormalSvData">
+        </div>
+    </div>
+</div>
+
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/goodsanaly/goodsabnormal.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

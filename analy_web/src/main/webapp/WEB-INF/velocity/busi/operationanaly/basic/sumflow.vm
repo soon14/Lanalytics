@@ -1,0 +1,14 @@
+#set($layout = "temp_layout.vm")
+<div class="alert alert-info" style="margin-bottom:10px;">
+	<label class="control-label">
+		累计访客数<span id="uvCount" class="numberFont">$!{sumData.uv}</span>,
+		累计访问量<span id="pvCount" class="numberFont">$!{sumData.pv}</span>,
+		累计新注册用户数<span id="registerStaffCount" class="numberFont">$!{sumData.registerStaff}</span>
+	</label>
+</div>
+<style type="text/css">
+	.numberFont {
+		  color: #F00;
+		  font-size: 150%;
+		}
+</style>

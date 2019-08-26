@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 引入mybatis数据服务 -->
+	<import resource="classpath*:/services/mybatis-config.xml" />
+	
+	<bean id="alyCacheSv" class="com.ai.analy.cache.impl.RedisCache"
+		init-method="init">
+		<property name="confCenter" ref="confCenter" />
+		<property name="confPath" value="/com/ai/analy/cache/conf" />
+	</bean>
+	
+    <!-- 引入业务服务-->
+    <import resource="classpath*:/services/service-beans.xml" />
+    
+    <!-- 通过dubbo提供的服务-->
+    <import resource="classpath*:/dubbo/dubbo-provider-config.xml" />
+    
+
+</beans>

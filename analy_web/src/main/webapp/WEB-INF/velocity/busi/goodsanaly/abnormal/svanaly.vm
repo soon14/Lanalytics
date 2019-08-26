@@ -1,0 +1,87 @@
+#set($layout = "temp_layout.vm")
+<h5 class="sub-header">最近7天、30天投诉数据</h5>
+<table class="table table-striped">
+	 <thead>
+        <tr>
+          <th>时间</th>
+          <th>店铺投诉量</th>
+          <th>店铺投诉率/平台投诉率</th>
+          <th>店铺投诉平均处理速度/平台投诉平均处理速度</th>
+        </tr>
+      </thead>
+      <tbody>
+		 <tr>
+             <td>最近7天</td>
+			 <td>$!{complaintGdsVo7.complaintAmount}</td>
+			 <td>
+				
+				<span class="#setSvTextClass($complaintGdsVo7.rateShop,$complaintGdsVo7.ratePlat)">#percentNumber("$!{complaintGdsVo7.rateShop}","#0.0000")</span>
+			    /#percentNumber("$!{complaintGdsVo7.ratePlat}","#0.0000")
+			 </td>
+			 <td>
+                <span class="#setSvTextClass($complaintGdsVo7.avgDaysShop,$complaintGdsVo7.avgDaysPlat)">#formatNumber("$!{complaintGdsVo7.avgDaysShop}","#0.0")天</span>
+			   /#formatNumber("$!{complaintGdsVo7.avgDaysPlat}","#0.0")天
+			 </td>
+		 </tr>
+		 <tr>
+             <td>最近30天</td>
+			 <td>$!{complaintGdsVo30.complaintAmount}</td>
+			 <td>
+				<span class="#setSvTextClass($complaintGdsVo30.rateShop,$complaintGdsVo30.ratePlat)">#percentNumber("$!{complaintGdsVo30.rateShop}","#0.0000")</span>
+			   /#percentNumber("$!{complaintGdsVo30.ratePlat}","#0.0000")
+			 </td>
+			 <td>
+				<span class="#setSvTextClass($complaintGdsVo30.avgDaysShop,$complaintGdsVo30.avgDaysPlat)">#formatNumber("$!{complaintGdsVo30.avgDaysShop}","#0.0")天</span>
+			   /#formatNumber("$!{complaintGdsVo30.avgDaysPlat}","#0.0")天
+			 </td>
+		 </tr>
+	  </tbody>
+</table>
+<h5 class="sub-header">最近7天、30天商品退货数据</h5>
+<table class="table table-striped">
+	 <thead>
+        <tr>
+          <th>时间</th>
+          <th>店铺退货量</th>
+          <th>店铺退货率/平台退货率</th>
+          <th>店铺退货平均处理速度/平台退货平均处理速度</th>
+        </tr>
+      </thead>
+      <tbody>
+		 <tr>
+             <td>最近7天</td>
+			 <td>$!{returnGdsVo7.returnAmount}</td>
+			 <td>
+				<span class="#setSvTextClass($returnGdsVo7.rateShop,$returnGdsVo7.ratePlat)">#percentNumber("$!{returnGdsVo7.rateShop}","#0.00")</span>
+			   /#percentNumber("$!{returnGdsVo7.ratePlat}","#0.00")
+			 </td>
+			 <td>
+				<span class="#setSvTextClass($returnGdsVo7.avgDaysShop,$returnGdsVo7.avgDaysPlat)">#formatNumber("$!{returnGdsVo7.avgDaysShop}","#0.0")天</span>
+			   /#formatNumber("$!{returnGdsVo7.avgDaysPlat}","#0.0")天
+			 </td>
+		 </tr>
+		 <tr>
+             <td>最近30天</td>
+			 <td>$!{returnGdsVo30.returnAmount}</td>
+			 <td>
+				<span class="#setSvTextClass($returnGdsVo30.rateShop,$returnGdsVo30.ratePlat)">#percentNumber("$!{returnGdsVo30.rateShop}","#0.00")</span>
+			    /#percentNumber("$!{returnGdsVo30.ratePlat}","#0.00")
+			 </td>
+			 <td>
+				<span class="#setSvTextClass($returnGdsVo30.avgDaysShop,$returnGdsVo30.avgDaysPlat)">#formatNumber("$!{returnGdsVo30.avgDaysShop}","#0.0")天</span>
+			   /#formatNumber("$!{returnGdsVo30.avgDaysPlat}","#0.0")天
+			 </td>
+		 </tr>
+	  </tbody>
+</table>
+
+#macro(setSvTextClass $number1 $number2)
+#if("$number1" =="NaN" || $null.isNull($number1)) 
+#set($number1 = 0.0)
+#end
+#if("$number2" =="NaN" || $null.isNull($number2))
+#set($number2 = 0.0)
+#end
+#if($number1 > $number2)text-danger#end
+#if($number2 > $number1)text-success#end
+#end

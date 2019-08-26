@@ -1,0 +1,23 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="促销概况")
+
+<h2 class="sub-header">
+    <span class="small">$BUSI_TITLE</span>
+    <i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="促销分析提供促销信息筛选、促销指标概览、趋势、促销商品指标查看功能。在指标趋势页面，可对比非促销期，发现促销期内各指标的趋势。" ></i>
+</h2>
+<div class="panel panel-default">
+	<div class="panel-body">
+		#parse("busi/promanaly/promsearchlist.vm")
+		<div id="promIndexAnchor"></div>
+		#parse("busi/promanaly/promindex.vm")
+	</div>
+</div>
+<link href="$CSS_PATH/tablesorter.default.css" rel="stylesheet">
+##tablesorter、echarts加载顺序很重要，一定要tablesorter先加载，否则导致tablesorter is not function错误
+<script src="$CONTEXT_PATH/js/jquery.tablesorter.min.js" type="text/javascript" ></script>
+<script src="$CONTEXT_PATH/js/echarts/echarts.js" type="text/javascript" ></script>
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/promanaly/promsearchlist.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/promanaly/promindex.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/promanaly/promindextrend.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/promanaly/gdsindextrend.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

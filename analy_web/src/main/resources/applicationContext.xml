@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 配置velocity引擎 -->
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+	    <property name="resourceLoaderPath" value="/WEB-INF/velocity"></property>
+	    <property name="velocityProperties">
+	        <props>
+	            <prop key="encoding">UTF-8</prop>
+		        <prop key="input.encoding">UTF-8</prop>
+			    <prop key="output.encoding">UTF-8</prop>
+				<prop key="contentType">text/html;charset=UTF-8</prop>
+				<prop key="velocimacro.library">macros.vm</prop>
+			</props>
+	    </property>
+	</bean>
+	
+    <!-- 视图解析 -->
+    <bean id="viewResolver" class="com.ai.analy.system.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager">
+            <!-- 设置请求的匹配规则 -->
+		    <bean class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		        <property name="ignoreAcceptHeader" value= "false"/>
+		        <property name="favorPathExtension" value="true"/>
+		        <property name="favorParameter" value="true"/>
+		        <property name="defaultContentType" value="text/html"/>
+		        <property name="mediaTypes">
+		            <map>
+		                <entry key="xml"  value="application/xml" />
+		                <entry key="json" value="application/json" />
+		                <entry key="xls" value="application/vnd.ms-excel"/> 
+		            </map>
+		        </property>
+		    </bean>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <!-- velocity 视图 -->
+				<bean class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+					<property name="order" value="1" />
+					<property name="cache" value="false" />
+					<property name="suffix" value=".vm" />
+					<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" /> <!--toolbox配置文件路径 -->
+					<property name="dateToolAttribute" value="dateTool" />  <!--日期函数名称 -->
+					<property name="numberToolAttribute" value="number" /><!--数字函数名称 -->
+					<property name="exposeSpringMacroHelpers" value="true" />
+					<property name="exposeRequestAttributes" value="true" /><!--是否开放request属性 -->
+					<property name="requestContextAttribute" value="rc" /> <!--request属性引用名称 -->
+					<property name="contentType" value="text/html;charset=UTF-8" />
+					<property name="layoutUrl" value="sys_layout.vm" />
+				</bean>
+				<!-- jsp 视图-->
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="order" value="2" />
+                    <property name="prefix" value="/WEB-INF/jsp/"></property><!-- 配置页面路径 -->
+                    <property name="suffix" value=".jsp"></property><!-- 文件以value值结尾 -->
+                    <property name="contentType" value="text/html;charset=UTF-8" />
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></bean>
+                <bean class="com.ai.analy.system.view.ExcelView"></bean>
+            </list>
+        </property>
+    </bean>
+     <!-- 全局异常处理 -->
+     <bean name="handlerExceptionResolver" class="com.ai.analy.system.handler.SimpleMappingExceptionResolver">
+         <property name="defaultErrorView" value="/busi/error/500"></property>
+	     <property name="defaultStatusCode" value="500"></property>
+     </bean>
+     
+     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	    <!-- 国际化信息所在的文件名 -->                     
+	    <property name="basename" value="messages" />
+	    <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称  -->               
+	    <property name="useCodeAsDefaultMessage" value="true" />           
+    </bean>
+    
+    <!-- spring 上下文 -->
+    <bean class="com.ai.analy.system.util.SpringContextUtil"></bean>
+     
+    <!-- 引入公共定义 -->
+    <import resource="classpath*:/commonService.xml" />
+    <!-- 引入服务定义 -->
+    <import resource="classpath*:/dubbo/dubbo-consumer-config.xml" />
+</beans>

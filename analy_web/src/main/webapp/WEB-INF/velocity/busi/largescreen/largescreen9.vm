@@ -1,0 +1,10 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="商品分析")
+#set($prePage="$CONTEXT_PATH/largeScreen/screen8")
+#set($nextPage="${aiTool.getSysConf('woegoDomain')}/largescreen10")
+
+<section class="w_2 clearfix" id="datacontext">
+   #parse("busi/largescreen/largescreen9/right.vm")
+</section>
+#set($layout = "busi/largescreen/layout.vm")
+<script src="$CONTEXT_PATH/largescreen/js/largescreen9.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

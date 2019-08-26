@@ -1,0 +1,47 @@
+#set($layout = "temp_layout.vm")
+<div class="sub-header">
+    <p><label>零销量商品：</label>最近7天<span style="color:red">(#dateFormat($!{now7DayFrom},"yyyy.MM.dd")~#dateFormat($!{now7DayTo},"yyyy.MM.dd"))</span>销量为0的商品；</p>
+	#if($data.recordList && $data.recordList.size()>0)
+	<p><label>建议：</label>优化商品标题和描述，加强关联商品，加强引流。</p>
+	#end
+</div>
+		
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>商品名称</th>
+      <th>商品状态</th>
+	  <th>上一周期浏览量</th>
+	  <th>上一周期销量</th>
+	  <th>本周期浏览量</th>
+	  <th>本周期销量</th>
+    </tr>
+  </thead>
+  <tbody>
+    #if($data.recordList && $data.recordList.size()>0)
+    #foreach($row in $data.recordList)
+    <tr>
+      <td>
+      	<dl class="table_img">
+      		<dt><img class="imgBgSmall" width="50" height="50" src='#getGdsImgUrl("$!{row.picId}_50x50!.jpg")'></dt>
+      		<dd style="width:220px; white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="$!{row.gdsName} $!{row.skuProp}">$!{row.gdsName} $!{row.skuProp}&nbsp;</dd>
+      		<dd>价格：#moneyNumber("$!{row.price}","#0.00")&nbsp;&nbsp;库存：$!{row.stock}&nbsp;</dd>
+      		<dd>发布时间：#dateFormat($!{row.shelvesTime},"yyyy-MM-dd HH:mm:ss")</dd>
+      	</dl>
+	  </td>
+	  <td>$!{row.state}</td>
+	  <td>$!{row.lastPv}</td>
+	  <td>$!{row.lastPayAmount}</td>
+      <td>$!{row.currPv}</td>
+	  <td>$!{row.currPayAmount}</td>
+    </tr>
+    #end
+    #else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="goodsAbnormalPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>

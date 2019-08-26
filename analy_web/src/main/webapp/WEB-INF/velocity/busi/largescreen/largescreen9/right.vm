@@ -1,0 +1,139 @@
+#set($layout = "temp_layout.vm")
+
+#macro(setLargeScreen9TextClass $number)
+  #if($number > 0)
+	glyphicon-arrow-up
+  #else
+	glyphicon-arrow-down
+  #end
+#end
+
+<div class="left">
+    <div class="boxL_1">
+    	<h2 style="margin-left:300px;">漏斗分析</h2>
+		<div class="loudou_up">
+			<div class="loudou_up_bg"></div>
+			<div class="trapezoid">
+				<div class="trap trap_1"><span><i class="glyphicon glyphicon-user mr5"></i>访客</span></div>
+				<div class="trap trap_2"><span><i class="iconfont  f20">&#xe600;</i>下单</span></div>
+				<div class="trap trap_3"><span><i class="iconfont mr5 ">&#xe601;</i></i>支付</span></div>
+			</div>
+    		<span class="tr_da tr_da_1">下单转化率</span>
+    		<span class="tr_da tr_da_2">#percentNumber("$!{goodsOverviewVo.orderUvRate}","#0.0")</span>
+    		<span class="tr_da tr_da_3">下单-支付转化率</span>
+    		<span class="tr_da tr_da_4">#percentNumber("$!{goodsOverviewVo.orderPayUvRate}","#0.0")</span>
+    		<span class="tr_da tr_da_5">支付转化率</span>
+    		<span class="tr_da tr_da_6">#percentNumber("$!{goodsOverviewVo.payUvRate}","#0.0")</span>
+    	</div>
+    </div>
+    <ul class="boxL_2 loudou_down">
+    	<li>
+    		<dl>
+    			<dt>访客数</dt>
+    			<dd class="f_big">$!{goodsOverviewVo.uv}</dd>
+    			<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{goodsOverviewVo.uvCompare})"><b>#percentNumber("$!{goodsOverviewVo.uvCompare}","#0.0")</b></i></dd>
+    		</dl>
+        </li>
+    	<li>
+    		<dl>
+    			<dt>下单买家数</dt>
+    			<dd class="f_big">$!{goodsOverviewVo.orderUv}</dd>
+    			<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{goodsOverviewVo.orderUvCompare})"><b>#percentNumber("$!{goodsOverviewVo.orderUvCompare}","#0.0")</b></i></dd>
+    		</dl>
+    	</li>
+    	<li>
+    		<dl>
+    			<dt>支付金额（元）</dt>
+    			<dd class="f_big">#moneyNumber("$!{goodsOverviewVo.payAmount}","#0.00")</dd>
+    			<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{goodsOverviewVo.payAmountCompare})"><b class="up">#percentNumber("$!{goodsOverviewVo.payAmountCompare}","#0.0")</b></i></dd>
+    		</dl>
+    	</li>
+    </ul>
+</div>
+
+<div  class="right">
+
+<div class="boxR_1">
+	<h2 style="margin-left:240px;">商品分析</h2>
+	<ul class="goods_ana clearfix">
+		<span class="line lineup"></span>
+		<span class="line linedown"></span>
+		<li>
+			<dl>
+				<dt>详情页跳失率</dt>
+				<dd class="f_big">#percentNumber("$!{goodsOverviewVo.exitRate}","#0.0")</dd>
+				<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{goodsOverviewVo.exitRateCompare})"><b>#percentNumber("$!{goodsOverviewVo.exitRateCompare}","#0.0")</b></i></dd>
+			</dl>
+		</li>
+		<li>
+			<dl>
+				<dt>人均浏览量</dt>
+				<dd class="f_big">#formatNumber("$!{flowOverviewVo.avgPv}","#0.0")<small>页</small></dd>
+				<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{flowOverviewVo.avgPvCompare})"><b>#percentNumber("$!{flowOverviewVo.avgPvCompare}","#0.0")</b></i></dd>
+			</dl>
+		</li>
+		<li>
+			<dl>
+				<dt>平均停留时长</dt>
+				<dd class="f_big">#formatNumber("$!{goodsOverviewVo.avgStay}","#0.0")<small>秒</small></dd>
+				<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{goodsOverviewVo.avgStayCompare})"><b>#percentNumber("$!{goodsOverviewVo.avgStayCompare}","#0.0")</b></i></dd>
+			</dl>
+		</li>
+		<li>
+			<dl>
+				<dt>商品收藏次数</dt>
+				<dd class="f_big">$!{goodsOverviewVo.favors}<small>次</small></dd>
+				<dd class="compare"><span>较上周期</span><i class="glyphicon #setLargeScreen9TextClass($!{goodsOverviewVo.favorsCompare})"><b>#percentNumber("$!{goodsOverviewVo.favorsCompare}","#0.0")</b></i></dd>
+			</dl>
+		</li>
+	</ul>
+
+</div>
+<div class="boxR_3">
+	<div class="title_secome">
+	    <p>商品交易贡献TOP5</p>
+	</div>
+	<ul class="tableWrap">
+		#if($data.recordList && $data.recordList.size()>0)
+        #foreach($row in $data.recordList)
+	        #set($rankIndex = $velocityCount + $data.pageSize * ($data.currentPage - 1))
+    		<li>
+    			<div class="t_item">
+    				<div class="rank">$rankIndex<i class="glyphicon glyphicon-triangle-bottom"></i></div>
+    				<dl>
+    					<dt><p><span class="itempageName">$!{row.gdsName} $!{row.skuProp}</span></p></dt>
+    					<dd class="blue">
+    						<span>销量</span>
+    						<b>$!{row.payCount}</b>
+    					</dd>
+    					<dd class="orange">
+    						<span>支付金额</span>
+    						<b  class="money">#moneyNumber("$!{row.payMoney}","#0.00")</b>
+    					</dd>
+    				</dl>
+    			</div>
+    		</li>
+		#end
+		#end
+	</ul>
+</div>
+</div>
+	
+<script type="text/javascript">
+    $(document).ready(function(){
+	    $("i.glyphicon-arrow-down b").each(function(i,d){
+		    var text = $(this).text();
+			if(text != "0%"){
+			    $(this).text(text.replace("-",""));
+			}
+		});
+		
+		$("span.itempageName").each(function(i,d){
+		    var text = $(d).text();
+			if(text.length > 18){
+			    $(d).text(text.substring(0,18)+"...");
+			}
+		});
+		
+	});
+</script>

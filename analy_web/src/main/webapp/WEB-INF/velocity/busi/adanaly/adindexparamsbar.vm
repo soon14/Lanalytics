@@ -1,0 +1,163 @@
+<div class="panel-heading clearfix">
+	<ul class="fl nav nav-pills" id="adIndexParamsDate">
+		<li param="0" role="presentation" class="active"><a href="javascript:void(0);">今天</a></li>
+		<li param="1" role="presentation"><a href="javascript:void(0);">昨天</a></li>
+		<li param="6" role="presentation"><a href="javascript:void(0);">最近7天</a></li>
+		<li param="29" role="presentation"><a href="javascript:void(0);">最近30天</a></li>
+		<li param="-1" id="adIndexEffectiveDateLi" role="presentation"><a href="javascript:void(0);">生效期</a></li>
+    </ul>
+	<form class="form-inline fl">
+        <div class="form-group">
+            <label>选择时间段：</label>
+            <div id="adIndexDateFrom" class="input-group date">
+                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" value="$date.get('yyyy-MM-dd')" placeholder="开始时间" readonly >
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>到</label>
+            <div id="adIndexDateTo" class="input-group date">
+                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" value="$date.get('yyyy-MM-dd')" placeholder="结束时间" readonly >
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+		<button id="adIndexSearchButton" class="btn btn-default btn-sm" type="button">查看</button>
+    </form>
+    <ul class="fr nav nav-pills" id="adIndexSource">
+    	<li param="0" role="presentation"  class="active"><a href="javascript:void(0);">全部</a></li>
+		<li param="1" role="presentation"><a href="javascript:void(0);">PC端</a></li>
+		<li param="2" role="presentation"><a href="javascript:void(0);">无线</a></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    var g_StartDate = 179;//开始时间范围
+    var g_MaxDateRange = 179; //最大时间范围
+	var g_currentYear = $date.get("yyyy");
+	var g_currentMonth= $date.get("M")-1;
+	var g_currentDay = $date.get("d");
+	var g_currentDate = new Date(g_currentYear,g_currentMonth,g_currentDay);
+	
+    $(document).ready(function(){
+	    //事件处理
+    	//时间选择
+    	$("#adIndexParamsDate > li > a").click(function(){
+    		$("#adIndexParamsDate > li.active").removeClass("active");
+    		$(this).parent().addClass("active");
+			
+			setAdIndexBeginAndEndDate();
+			
+    		queryAdIndex(getAdIndexQueryParams());
+    	});
+    	
+    	//来源选择
+    	$("#adIndexSource > li > a").click(function(){
+    		$("#adIndexSource > li.active").removeClass("active");
+    		$(this).parent().addClass("active");
+    		queryAdIndex(getAdIndexQueryParams());
+    	});
+		
+		//查看按钮
+		$("#adIndexSearchButton").click(function(){
+		    $("#adIndexParamsDate > li.active").removeClass("active");
+			$(this).blur();
+			queryAdIndex(getAdIndexQueryParams());
+		});
+		
+		//初始化日期控件
+        function initAdIndexDatetimepicker(){
+		    var dateFromObj = $('#adIndexDateFrom').datetimepicker();
+        	var dateToObj = $('#adIndexDateTo').datetimepicker();
+			
+			setAdIndexBeginAndEndDate();
+			
+        	dateFromObj.on(
+        		"changeDate",
+        	    function(ev){
+        			var dateFrom = dateFromObj.datetimepicker("getDate");
+        			var dateTo = dateToObj.datetimepicker("getDate");
+					var resetDateTo = false;
+        			if(dateFrom-dateTo>0){
+        				dateTo = dateFrom;
+						resetDateTo = true;
+        			}
+        			
+					if(resetDateTo == true){
+					    dateToObj.datetimepicker("setDate",dateFrom);
+						dateToObj.datetimepicker('show');
+					}
+        	    }
+        	);
+			
+			dateToObj.on(
+        		"changeDate",
+        	    function(ev){
+        			var dateFrom = dateFromObj.datetimepicker("getDate");
+        			var dateTo = dateToObj.datetimepicker("getDate");
+					var resetDateTo = false;
+        			if(dateFrom - dateTo >0){
+        				dateFromObj.datetimepicker("setDate",dateTo);
+        			}
+        	    }
+        	);
+        }
+		
+		function compare2Date(date1,data2){
+		   if(Math.abs(date1.getTime() - data2.getTime()) > g_MaxDateRange*24*60*60*1000){
+		       return false;
+		   }else{
+		       return true;
+		   }
+		}
+		
+		function setAdIndexBeginAndEndDate(){
+		    var dateSource = $("#adIndexParamsDate > li.active").attr("param");
+			dateSource = parseInt(dateSource);
+			var dateFrom = new Date(g_currentDate.getTime() - dateSource*24*60*60*1000);
+			var dataTo = g_currentDate;
+			if(dateSource == 1){
+			    dataTo = dateFrom;
+				
+			}else if(dateSource>1){
+			    dataTo = new Date(g_currentDate.getTime() - 1*24*60*60*1000);
+				dateFrom = new Date(dataTo.getTime() - dateSource*24*60*60*1000);
+				
+			}else if(dateSource == -1){//生效期
+				dateFrom = new Date(adStartTime);
+				dateTo = new Date(adEndTime);
+			}
+			
+			//设置时间
+        	var dateFromObj = $('#adIndexDateFrom').datetimepicker();
+			var dateToObj = $('#adIndexDateTo').datetimepicker();
+			
+			//var startDate = new Date(g_currentDate.getTime()-g_StartDate*24*60*60*1000);
+            //dateFromObj.datetimepicker('setStartDate', startDate);
+			//dateToObj.datetimepicker('setStartDate', startDate);
+			
+			dateFromObj.datetimepicker('setEndDate', g_currentDate);
+			dateToObj.datetimepicker('setEndDate', g_currentDate);
+			
+			dateFromObj.datetimepicker("setDate",dateFrom);
+			dateToObj.datetimepicker("setDate",dataTo);
+		 }
+		
+		initAdIndexDatetimepicker();
+	});
+	
+	function getAdIndexQueryParams(){
+		
+		var dateFrom = $('#adIndexDateFrom').datetimepicker("getFormattedDate");
+		var dateTo = $('#adIndexDateTo').datetimepicker("getFormattedDate");
+		var source = $("#adIndexSource > li.active").attr("param");
+		
+    	var params = {
+    		source:source,
+			dateFrom:dateFrom,
+			dateTo:dateTo,
+			adId:adId
+    	};
+		
+		return params;
+	}
+</script>

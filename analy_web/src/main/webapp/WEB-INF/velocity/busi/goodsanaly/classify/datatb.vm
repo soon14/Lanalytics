@@ -1,0 +1,63 @@
+#set($layout = "temp_layout.vm")
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>商品类型</th>
+	  #if("$!{categoryType}" == "2")
+	    <th>商品分类</th>
+	  #end
+	  #if("$!{categoryType}" == "3")
+		<th>价格区间</th>
+	  #end
+	  <th>商品数</th>
+      <th>访客数</th>
+      <th>点击量</th>
+	  <th>销量</th>
+	  <th>交易额</th>
+	  <th>平均支付转化率</th>
+    </tr>
+  </thead>
+  <tbody>
+    #if($data && $data.size()>0)
+    #foreach($row in $data)
+    <tr>
+      <td catId="$!{row.catId}" catGroupSize = "${row.catGroupSize}">$!{row.catName}</td>
+	  #if("$!{categoryType}" == "2")
+	    <td>
+	    #foreach($brand in $!{row.brands})
+	    	#if($!{row.brands.size()} - $!{velocityCount} < 3)
+		    	#if(! $brand.hasLowerBrand)
+			    	$!{brand.brandName}
+			    #else
+			    	<a href='#' onclick="queryGdsBrand($!{row.catId},$!{brand.brandId})">$!{brand.brandName}</a>
+			    #end
+		    	#if($row.brands.size()!=$!{velocityCount})
+		    		-
+		    	#end
+		    #end
+	    #end
+	    </td>
+	  #end
+	  #if("$!{categoryType}" == "3")
+	  	<td>$!{row.categoryTypeName}</td>
+	  #end
+	  <td>$!{row.gdsCount}</td>
+	  <td>$!{row.uv}</td>
+	  <td>$!{row.pv}</td>
+	  <td>$!{row.salesVolumn}</td>
+	  <td>#moneyNumber("$!{row.tradeMoney}","#0.00")</td>
+	  <td>#percentNumber("$!{row.payRate}","#0.00")</td>
+    </tr>
+    #end
+    #else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+
+<!--
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="goodsClassifyPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>
+-->

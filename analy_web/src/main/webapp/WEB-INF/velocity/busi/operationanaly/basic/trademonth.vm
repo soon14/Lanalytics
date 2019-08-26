@@ -1,0 +1,48 @@
+#set($layout = "temp_layout.vm")
+<form class="form-inline fr">
+    <button id="exportTradeMonthBtn" class="btn btn-default" type="button">导出</button>
+</form>
+<div >
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th col_name="month">月份</th>
+                <th col_name="orderMoney">码洋</th>
+                <th col_name="orderMoney">实洋</th>
+                <th col_name="orderCount">订单总量</th>
+                <th col_name="payCount">支付成功量</th>
+                <th col_name="ordSuccessRate">下单成功率</th>
+            </tr>
+        </thead>
+        <tbody>
+            #if($page.recordList && $page.recordList.size()>0)
+                #foreach($row in $page.recordList)
+                    #set($rankIndex = $velocityCount + $page.pageSize * ($page.currentPage - 1))
+                    <tr>
+                        <td>$!{row.month}</td>
+                        <td>#moneyNumber("$!{row.orderMoney}","#0.00")</td>
+                        <td>#moneyNumber("$!{row.payMoney}","#0.00")</td>
+                        <td>$!{row.orderCount}</td>
+                        <td>$!{row.payCount}</td>
+                        <td>#percentNumber("$!{row.ordSuccessRate}","#0.00")</td>
+                    </tr>
+                #end
+                #else
+                    <tr>
+                        <td colspan="20">暂无数据</td>
+                    </tr>
+            #end
+        </tbody>
+    </table>
+    <div  class="pagerBar" style="margin-top:0px;">
+        <span id="tradeMonthSumPagerId" data-count="$!{page.recordCount}" data-size="$!{page.pageSize}" data-currentindex="$!{page.currentPage}" >
+        </span>
+    </div>
+</div>
+<script type="text/javascript">
+	$('#exportTradeMonthBtn').click(function(){
+		var params = getQueryParams();
+	
+		window.location = preUrl+'exportTradeMonthSum.xls?dateFrom='+params.dateFrom+'&dateTo='+params.dateTo;
+	});
+</script>

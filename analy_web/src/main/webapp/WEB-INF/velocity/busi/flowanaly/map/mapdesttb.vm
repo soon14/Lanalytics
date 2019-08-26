@@ -1,0 +1,33 @@
+#set($layout = "temp_layout.vm")
+<h5 class="sub-header">页面浏览量排行</h5>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>排名</th>
+      <th>浏览页面</th>
+      <th>浏览量</th>
+      <th>离开浏览量</th>
+      <th>离开浏览量占比</th>
+    </tr>
+  </thead>
+  <tbody>
+	#if($data.recordList && $data.recordList.size()>0)
+	#foreach($dest in $data.recordList)
+    <tr>
+	  <td><span class="label label-warning">$velocityCount</span></td>
+      <td realurl="$!{dest.pageUrl}">#formatUrlToName("$!{dest.pageUrl}")</td>
+      <td>$!{dest.spv}</td>
+      <td>$!{dest.sexitpv}</td>
+      <td>#percentNumber("$!{dest.percent}","#0.0")</td>
+    </tr>
+	#end
+	#else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+	
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="mapdestPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>

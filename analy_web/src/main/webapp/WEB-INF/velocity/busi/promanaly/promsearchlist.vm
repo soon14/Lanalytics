@@ -1,0 +1,137 @@
+<!--促销列表-->
+<div>
+    <h4 class="text-left">
+        <i class="glyphicon glyphicon-equalizer"></i>
+        <b>促销列表 </b>
+    </h4>
+	
+	<!--搜索框-->
+	<div class="panel panel-default">
+		<div class="panel-body">
+            <div class="row">
+                <div class="col-xs-3">
+                    <input id="promName" type="text" class="form-control input-sm" placeholder="请输入促销名称"/>
+                </div>
+                <div class="col-xs-3">
+                    <select class="form-control input-sm" id="promTypeCode">
+                        <option value="" selected >全部促销类型</option>
+                        #if($promTypes && $promTypes.size()>0)
+                            #foreach($row in $promTypes)
+                                <option value="$!{row.promTypeCode}">$!{row.promTypeName}</option>
+                            #end
+                        #end
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control input-sm" id="promStatus">
+                        <option value="">全部促销状态</option>
+                        <option value="10">生效</option>
+                        <option value="20">失效</option>
+                        <option value="30">删除</option>
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control input-sm" id="siteId">
+                        <option value="" selected >全部站点</option>
+                        #if($sites && $sites.size()>0)
+                            #foreach($row in $sites)
+                                <option value="$!{row.id}">$!{row.siteName}</option>
+                            #end
+                        #end
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px">
+                <div class="col-xs-3">
+                    <select class="form-control input-sm" id="promShopId">
+                        <option value="" selected >全部店铺</option>
+                        #if($shops && $shops.size()>0)
+                            #foreach($row in $shops)
+                                <option value="$!{row.shopId}">$!{row.shopName}</option>
+                            #end
+                        #end
+                    </select>
+                </div>
+                <div class="col-xs-7">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label>生效时间：</label>
+                            <div id="prom_dateFrom" class="input-group date">
+                                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" value="$date.get('yyyy-MM-dd')" placeholder="开始时间"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>到</label>
+                            <div id="prom_dateTo" class="input-group date">
+                                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" value="$date.get('yyyy-MM-dd')" placeholder="结束时间"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <button class="btn btn-default btn-sm" id="searchButtonId" type="button" onclick="searchDatas()">查询</button>
+                    </form>
+					<script type="text/javascript">
+
+                        $(document).ready(function(){
+                        	
+                    		//初始化日期控件
+                            function initDatetimepicker(){
+                    		    var dateFromObj = $('#prom_dateFrom').datetimepicker();
+                            	var dateToObj = $('#prom_dateTo').datetimepicker();
+                    			
+                    			//setBeginAndEndDate();
+                    			
+                            	dateFromObj.on(
+                            		"changeDate",
+                            	    function(ev){
+                            			var dateFrom = dateFromObj.datetimepicker("getDate");
+                            			var dateTo = dateToObj.datetimepicker("getDate");
+                    					var resetDateTo = false;
+                            			if(dateFrom-dateTo>0){
+                            				dateTo = dateFrom;
+                    						resetDateTo = true;
+                            			}
+                            			
+                    					if(resetDateTo == true){
+                    					    dateToObj.datetimepicker("setDate",dateFrom);
+                    						dateToObj.datetimepicker('show');
+                    					}
+                            	    }
+                            	);
+                    			
+                    			dateToObj.on(
+                            		"changeDate",
+                            	    function(ev){
+                            			var dateFrom = dateFromObj.datetimepicker("getDate");
+                            			var dateTo = dateToObj.datetimepicker("getDate");
+                    					var resetDateTo = false;
+                            			if(dateFrom - dateTo >0){
+                            				dateFromObj.datetimepicker("setDate",dateTo);
+                            			}
+                            	    }
+                            	);
+                            }
+                    		
+                    		function compare2Date(date1,data2){
+                    		   if(Math.abs(date1.getTime() - data2.getTime()) > g_MaxDateRange*24*60*60*1000){
+                    		       return false;
+                    		   }else{
+                    		       return true;
+                    		   }
+                    		}
+                    		
+                    		initDatetimepicker();
+                    	});
+                    </script>
+                </div>
+            </div>
+		</div>
+	</div>
+	
+	<!--促销列表-->
+	<div class="table-responsive" id="promTableId"></div>
+</div>

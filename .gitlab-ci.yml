@@ -1,0 +1,50 @@
+types:
+  - build
+
+####沃云TST测试环境
+####IP：192.168.5.9
+####TOMCAT PORT：19411
+####DUBBO PORT：30981
+RENWEI_TST:
+  type: build
+  script:
+    - cd ../../../Deployment/dep
+    - ./DEP_ECP_ANALY_192.168.5.9_RENWEITST.sh
+  only:
+    - develop
+  tags:
+    - RENWEITST
+
+#XINHUA_TST:
+#  type: build
+#  script:
+#    - cd ../../../Deployment/dep
+#    - ./DEP_ECP_ANALY_10.61.54.216_XINHUATST.sh
+#  only:
+#    - dev_新华社行为分析
+#  tags:
+#    - xhs-rn
+
+XINHUA_DEV:
+  type: build
+  script:
+    - cd ../../../Deployment/dep
+    - ./DEP_ECP_ANALY_192.168.170.30_XINHUADEV.sh
+  only:
+    - develop
+  tags:
+    - XHS-DEV
+
+####生产环境
+####IP：192.168.5.12-13
+####TOMCAT PORT：19411
+####DUBBO PORT：30981
+RENWEI_PROD:
+  type: build
+  script:
+    - cd ../../../Deployment/dep
+    - ./DEP_ECP_ANALY_192.168.5.12_RENWEIPROD.sh
+  only:
+    - master
+  tags:
+    - RENWEIPROD

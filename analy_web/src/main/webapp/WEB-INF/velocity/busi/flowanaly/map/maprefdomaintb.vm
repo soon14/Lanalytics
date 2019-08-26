@@ -1,0 +1,32 @@
+#set($layout = "temp_layout.vm")
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>来源外站</th>
+      <th>访客数</th>
+      <th>环比</th>
+      <th>浏览数</th>
+      <th>环比</th>
+    </tr>
+  </thead>
+  <tbody>
+	#if($data.recordList && $data.recordList.size()>0)
+	#foreach($source in $data.recordList)
+    <tr>
+      <td realurl="$!{source.referPage}">$!{source.referDomain}</td>
+      <td>$!{source.uv}</td>
+      <td>#percentNumber("$!{source.uvScale}","#0.0")</td>
+      <td>$!{source.pv}</td>
+      <td>#percentNumber("$!{source.pvScale}","#0.0")</td>
+    </tr>
+	#end
+	#else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="mapRefDomainPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>

@@ -1,0 +1,49 @@
+<!-- The styles -->
+<link href="$CONTEXT_PATH/js/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="$CONTEXT_PATH/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="$CSS_PATH/dashboard.css" rel="stylesheet" >
+<link href="$CONTEXT_PATH/js/hover/hover-min.css" rel="stylesheet">
+<link href="$CSS_PATH/global.css" rel="stylesheet">
+<link href="$CSS_PATH/sidebbar.css" rel="stylesheet">
+<!-- The javascripts -->
+<script src="$CONTEXT_PATH/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="$CONTEXT_PATH/js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="$CONTEXT_PATH/js/jquery.velocity.min.js" type="text/javascript"></script>
+<script src="$CONTEXT_PATH/js/bootstrap/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="$CONTEXT_PATH/js/bootstrap/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript" charset="UTF-8"></script>
+<!--
+<script src="$BUSIJS_PATH/system/user-log.js?ver=$!{JS_VERSION}" type="text/javascript"></script>
+-->
+
+<!--[if lt IE 9]>
+    <script src="$CONTEXT_PATH/js/html5shiv.min.js"></script>
+    <script src="$CONTEXT_PATH/js/respond.min.js"></script>
+	<script src="$CONTEXT_PATH/js/PIE.js"></script>
+<![endif]-->
+
+<!--commo js-->
+<script type="text/javascript">
+    var WEB_ROOT = "$CONTEXT_PATH";
+	
+	//toolTip
+    $(function () {
+	  initPopover();
+	  $.fn.datetimepicker.defaults = {
+	      language:  'zh-CN', //语言
+		  autoclose:true, //当选择一个日期之后是否立即关闭此日期时间选择器。
+		  todayBtn:false,
+		  minView:2,
+		  pickerPosition: "bottom-left",
+		  format: 'yyyy-mm-dd',
+		  bootcssVer:3,
+		  todayHighlight:true
+	  };
+    });
+	
+	function initPopover(){
+	    $('[data-toggle="popover"]').popover({
+		    placement:"auto top"
+		});
+	}
+</script>
+<script src="$CONTEXT_PATH/js/ajax.js" type="text/javascript" ></script>

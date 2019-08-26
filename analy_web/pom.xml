@@ -1,0 +1,251 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>ecp-analytics-webapp</artifactId>
+    <groupId>com.ai.ecp</groupId>
+    <version>${ecp-analy-version}</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>ecp-analytics-web</artifactId>
+  <packaging>war</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>com.ai.ecp</groupId>
+      <artifactId>ecp-analytics-common</artifactId>
+    </dependency>
+
+    <!-- spring -->
+    <!-- spring-aop -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>3.2.12.RELEASE</version>
+    </dependency>
+        <!-- spring-beans -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+        <!-- spring-context-support -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+        <!-- spring-context -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+        <!-- spring-core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+        <!-- spring-expression -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+        <!-- spring-jdbc -->
+        <!-- spring-tx -->
+        <!-- spring-web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+        <!-- spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.2.12.RELEASE</version>
+        </dependency>
+
+        <!-- log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+
+        <!-- Velocity -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+
+        <!-- dubbo -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.5.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+
+        <dependency>
+        	<groupId>net.sf.json-lib</groupId>
+        	<artifactId>json-lib</artifactId>
+        	<version>2.4</version>
+        	<classifier>jdk15</classifier>
+        </dependency>
+
+        <dependency>
+			<groupId>com.ai.paas</groupId>
+			<artifactId>aiPaaS</artifactId>
+			<version>0.6.46.1-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ai.ecp</groupId>
+			<artifactId>webcore</artifactId>
+			<version>0.1.7.3-RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ai.ecp</groupId>
+			<artifactId>ecp-server-start-client</artifactId>
+			<version>0.2.23.7-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ai.ecp</groupId>
+			<artifactId>ecp-webcore</artifactId>
+			<version>0.1.7.7-RELEASE</version>
+		</dependency>
+  </dependencies>
+
+  <build>
+    <defaultGoal>compile</defaultGoal>
+    <finalName>ecp_analy</finalName>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+				  <version>1.0.0</version>
+				  <configuration>
+					  <lifecycleMappingMetadata>
+						  <pluginExecutions>
+							  <pluginExecution>
+								  <pluginExecutionFilter>
+									  <groupId>org.apache.maven.plugins</groupId>
+									  <artifactId>maven-dependency-plugin</artifactId>
+									  <versionRange>[2.0,)</versionRange>
+									  <goals>
+										  <goal>copy-dependencies</goal>
+									  </goals>
+								  </pluginExecutionFilter>
+								  <action>
+									  <ignore />
+								  </action>
+							  </pluginExecution>
+						  </pluginExecutions>
+					  </lifecycleMappingMetadata>
+				  </configuration>
+			  </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+            <id>copy-dependencies</id>
+            <phase>compile</phase>
+            <goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+            <configuration>
+              <outputDirectory>src/main/webapp/WEB-INF/lib</outputDirectory>
+							<excludeTransitive>false</excludeTransitive>
+							<stripVersion>false</stripVersion>
+							<overWriteReleases>true</overWriteReleases>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+  </build>
+</project>

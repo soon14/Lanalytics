@@ -1,0 +1,95 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="交易概况")
+
+<link href="$CSS_PATH/global.css" rel="stylesheet">
+<h2 class="sub-header">
+	<span class="small">$BUSI_TITLE</span>
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="交易概况是对店铺交易情况进行分析，分为交易总览、交易趋势、交易地域分布和交易排行四个模块" ></i>
+</h2>
+
+<div class="row placeholders">
+    <div class="col-xs-12 col-sm-12 placeholder">
+    	<div class="wb_decode clearfix">
+    		<div class="wb_decode_day">
+    			<p class="fs_big">7<span class="fs_small">天</span></p>
+    			<p>数据解读</p>									
+    		</div>
+    		<dl class="bor_r">
+    			<dt>交易波动解读 </dt>
+    			<dd>
+    				近7天店铺访客数量：<b style="color:red;">$!{goodsOverviewVo.uv}</b>人，
+					下单买家数量：<b style="color:red;">$!{goodsOverviewVo.orderUv}</b>人，
+					<br/>支付买家数量：<b style="color:red;">$!{goodsOverviewVo.payUv}</b>人。
+    			</dd>
+    		</dl>
+    		<dl>
+    			<dt>转化率解读</dt>
+    			<dd>
+                                                            近7天店铺下单转化率：<b style="color:red;">#percentNumber("$!{goodsOverviewVo.orderUvRate}","#0.0")</b>，
+                                                            下单-支付转化率：<b style="color:red;">#percentNumber("$!{goodsOverviewVo.orderPayUvRate}","#0.0")</b>，
+                    <br/>支付转化率：<b style="color:red;">#percentNumber("$!{goodsOverviewVo.payUvRate}","#0.0")</b>。
+    			</dd>
+    		</dl>
+    	</div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    #parse("busi/common/paramsbar.vm")
+	<div class="panel-body">
+			<!-- 交易总览 -->
+    		<h4 class="text-left">
+    			<i class="glyphicon glyphicon-equalizer"></i>
+    		 	<b>交易总览</b>
+				<span class="pull-right" style="width:50px;">&nbsp;</span>
+				<select class="pull-right form-control wt100" id="city" style="display:none;">
+				</select>
+				<span class="pull-right" style="width:20px;">&nbsp;</span>
+                <select class="pull-right form-control wt100" id="provice" provinceCode="${provinceCode}" style="display:none;">
+				</select>
+    		</h4>
+			<br />
+			<div id="tradeOverviewDiv">
+				
+			</div>
+			
+			<!--交易趋势 -->
+    		<h4 class="text-left">
+    			<i class="glyphicon glyphicon-equalizer"></i>
+    		 	<b>交易趋势</b>
+    		</h4>
+    		<div id="tradeTrendDiv"></div>
+			
+			<!-- 交易地域分布 -->
+    		<h4 class="text-left">
+    			<i class="glyphicon glyphicon-equalizer"></i>
+    		 	<b>交易地域分布</b>
+    		</h4>
+            <div class="table-responsive" id="tradeMapDiv"></div>
+				
+			#*
+			<!-- 交易排行 -->
+    		<h4 class="text-left">
+    			<i class="glyphicon glyphicon-equalizer"></i>
+    		 	<b>交易排行</b>
+    		</h4>
+			<ul class="nav nav-tabs" id="tradeRankCats">
+				#if($radeRankList && $radeRankList.size()>0)
+                #foreach($row in $radeRankList)
+				    <li #if($velocityCount == 1) class="active" #end option="$!{row.catId}"><a href="javascript:void(0);">$!{row.catName}</a></li>
+				#end
+				#end
+            </ul>
+			
+			<div class="tab-content">
+    			<div class="table-responsive" id="tradeRankDiv"></div>
+            </div>
+            *#
+			
+    </div>
+</div>
+	
+
+<script src="$CONTEXT_PATH/js/echarts/echarts.js" type="text/javascript" ></script>
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/tradeanaly/tradeanaly.js?ver=$!{JS_VERSION}2" type="text/javascript" ></script>

@@ -1,0 +1,170 @@
+#set($layout = "temp_layout.vm")
+
+<div class="placeholder">
+	<div class="col-md-7">
+		<div id="tradeMap" style="height:350px;width:100%;"></div>
+	</div>
+    
+    <div class="col-md-5">
+    	<div class="table-responsive">
+			&nbsp;&nbsp;展示数据:
+			<label class="checkbox-inline">
+				<input type="radio"  value="tradeCount" name="tradeMapData" checked> 交易量
+			</label>
+			<label class="checkbox-inline">
+				<input type="radio" value="tradeAmount" name="tradeMapData"> 交易额
+			</label>
+			<span id="exportTradeMapBtn" class="pull-right btn btn-default btn-sm">
+			导出
+		    </span>
+		    <br>
+			<table class="table table-striped" id="tradeAmount">
+			  <thead>
+			    <tr>
+			      <th>省份</th>
+			      <th>商品交易量</th>
+			      <th>百分比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($data2 && $data2.size()>0)
+    				#foreach($row in $data2)
+    				
+        				#if($velocityCount<11)
+        			    <tr>
+        			      <td>$!{row.provinceName}</td>
+        			      <td>$!{row.tradeCount}</td>
+        			      <td>#percentNumber("$!{row.countScale}","#0.0")</td>
+        			    </tr>
+        				#end
+        				#if($velocityCount==10)
+        				<tr >
+                            <td></td>
+							<td></td>
+                            <td><a href="javascript:void()" onclick="$('#MapMoreDateModal1').modal('show');">查看全部</a></td>
+						</tr>
+        				#end
+    				#end
+				#else
+                    <tr><td colspan="20">暂无数据</td></tr>
+                #end
+			  </tbody>
+			</table>
+			
+			<table class="table table-striped" id="tradeMoney" style="display:none">
+			  <thead>
+			    <tr>
+			      <th>省份</th>
+			      <th>商品交易额（元）</th>
+			      <th>百分比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($data1 && $data1.size()>0)
+    				#foreach($row in $data1)
+    				
+        				#if($velocityCount<11)
+        			    <tr>
+        			      <td>$!{row.provinceName}</td>
+        			      <td>#moneyNumber("$!{row.tradeAmount}","#0.00")</td>
+        			      <td>#percentNumber("$!{row.amountScale}","#0.0")</td>
+        			    </tr>
+        				#end
+        				#if($velocityCount==10)
+        				<tr >
+                            <td></td>
+							<td></td>
+                            <td><a href="javascript:void()" onclick="$('#MapMoreDateModal2').modal('show');">查看全部</a></td>
+						</tr>
+        				#end
+    				#end
+				#else
+                    <tr><td colspan="20">暂无数据</td></tr>
+                #end
+			  </tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="MapMoreDateModal1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="SearchDateModalLabel">交易地域分布</h3>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th>省份</th>
+			      <th>商品交易量</th>
+			      <th>百分比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($data2 && $data2.size()>0)
+    				#foreach($row in $data2)
+        			    <tr>
+        			      <td>$!{row.provinceName}</td>
+        			      <td>$!{row.tradeCount}</td>
+        			      <td>#percentNumber("$!{row.countScale}","#0.0")</td>
+        			    </tr>
+					#end
+				#end
+			  </tbody>
+			</table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="MapMoreDateModal2">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="SearchDateModalLabel">交易地域分布</h3>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th>省份</th>
+			      <th>商品交易额（元）</th>
+			      <th>百分比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($data1 && $data1.size()>0)
+    				#foreach($row in $data1)
+        			    <tr>
+        			      <td>$!{row.provinceName}</td>
+        			      <td>#moneyNumber("$!{row.tradeAmount}","#0.00")</td>
+        			      <td>#percentNumber("$!{row.amountScale}","#0.0")</td>
+        			    </tr>
+					#end
+				#end
+			  </tbody>
+			</table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>	
+
+<script type="text/javascript">
+    mapChart = eChartInstant.init(document.getElementById('tradeMap'), eChartTheme);
+	renderMapChart($data1);
+	
+	
+	$('#exportTradeMapBtn').click(function(){
+    	var params = getQueryParams();
+    	window.location = preUrl+'exportTradeMap.xls?dateFrom='+params.dateFrom+'&dateTo='+params.dateTo;
+    });
+</script>

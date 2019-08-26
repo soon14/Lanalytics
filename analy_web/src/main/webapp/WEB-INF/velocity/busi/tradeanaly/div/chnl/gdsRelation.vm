@@ -1,0 +1,58 @@
+#set($layout = "temp_layout.vm")
+
+<table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th>商品A</th>
+		      <th>商品B</th>
+		      <th>
+				商品AB都买占比
+			    <i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="AB都买客人占比：指同一天同一用户在平台购买A和B商品的客户占总客户的占比情况。" ></i>
+			  </th>
+		      <th>
+				关联度A
+				<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="关联度：与其他商品关联度=∑（同一用户同一天购买既购买A又购买B的B的用户数）/A的累计用户数" ></i>
+			  </th>
+			  <th>
+				关联度B
+				<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="关联度：与其他商品关联度=∑（同一用户同一天购买既购买A又购买B的B的用户数）/B的累计用户数" ></i>
+			  </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			#if($data.recordList && $data.recordList.size()>0)
+            #foreach($row in $data.recordList)
+			    <tr>
+                  <td>
+                  	<dl class="table_img" style="height:50px">
+                  		<dt><img class="imgBgSmall" width="50" height="50" src='#getGdsImgUrl("$!{row.gdsA.picId}_50x50!.jpg")'></dt>
+                  		<dd style="width:220px; white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="$!{row.gdsA.gdsName} $!{row.gdsA.skuProp}">$!{row.gdsA.gdsName} $!{row.gdsA.skuProp}&nbsp;</dd>
+                  		<dd>价格：#moneyNumber("$!{row.gdsA.price}","#0.00")&nbsp;&nbsp;库存：$!{row.gdsA.stock}&nbsp;</dd>
+                  		#*<dd>发布时间：#dateFormat($!{row.gdsA.shelvesTime},"yyyy-MM-dd HH:mm:ss")</dd>*#
+                  	</dl>
+            	  </td>
+                  <td>
+                  	<dl class="table_img" style="height:50px">
+                  		<dt><img class="imgBgSmall" width="50" height="50" src='#getGdsImgUrl("$!{row.gdsB.picId}_50x50!.jpg")'></dt>
+                  		<dd style="width:220px; white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="$!{row.gdsB.gdsName} $!{row.gdsB.skuProp}">$!{row.gdsB.gdsName} $!{row.gdsB.skuProp}&nbsp;</dd>
+                  		<dd>价格：#moneyNumber("$!{row.gdsB.price}","#0.00")&nbsp;&nbsp;库存：$!{row.gdsB.stock}&nbsp;</dd>
+                  		#*<dd>发布时间：#dateFormat($!{row.gdsB.shelvesTime},"yyyy-MM-dd HH:mm:ss")</dd>*#
+                  	</dl>
+            	  </td>
+                  <td>#percentNumber("$!{row.abScale}","#0.0")</td>
+				  <td>#percentNumber("$!{row.aRelev}","#0.0")</td>
+				  <td>#percentNumber("$!{row.bRelev}","#0.0")</td>
+               </tr>
+			#end
+			#end
+      </tbody>
+  </table>
+
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="goodsRelationPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>
+  
+<script type="text/javascript">
+    initPopover();
+</script>

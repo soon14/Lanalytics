@@ -1,0 +1,9 @@
+#set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+
+<option value="" selected >全部内容位置</option>
+#if($places && $places.size()>0)
+    #foreach($row in $places)
+        <option value="$!{row.id}">$!{row.placeName}</option>
+    #end
+#end

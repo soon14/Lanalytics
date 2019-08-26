@@ -1,0 +1,77 @@
+#set($layout = "temp_layout.vm")
+
+<div class="placeholder">
+	<div class="col-md-6">
+		#*<h3>
+        	<span class="small">各省/地市渠道差异</span>
+        </h3>*#
+	</div>
+	
+    <div class="col-md-6">
+		<label >指标：</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="uv" ckbType="1" name="chnlRegDifferCharCkb" checked> 访客数
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="tradeCount" ckbType="2" name="chnlRegDifferCharCkb"> 交易量
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="tradeAmount" ckbType="3" name="chnlRegDifferCharCkb"> 交易额
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payUvRate" ckbType="4" name="chnlRegDifferCharCkb"> 支付转化率
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payPrice" ckbType="5" name="chnlRegDifferCharCkb"> 客单价
+		</label>
+    </div>
+</div>
+
+<div class="placeholders ">
+	<div class="col-xs-12 col-sm-12 placeholder">
+		<div class="col-lg-12 sub-header">
+			<div id="chnlRegDifferChar" style="height:280px;width:100%;"></div>
+		</div>
+	</div>
+</div>
+
+#*
+<div class="placeholder ">
+	<h3>
+		<span class="small">&nbsp;&nbsp;&nbsp;&nbsp;T1~T6渠道</span>
+	</h3>
+	<div class="col-md-6">
+		<label >指标：</label>
+				<label class="checkbox-inline">
+			<input type="checkbox" value="uv" ckbType="1" name="chnlTypeCharCkb1" checked> 访客数
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="tradeCount" ckbType="2" name="chnlTypeCharCkb1"> 交易量
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="tradeAmount" ckbType="3" name="chnlTypeCharCkb1"> 交易额
+		</label>
+		<div id="TChnlPie" style="height:200px;width:100%;"></div>
+	</div>
+	
+    <div class="col-md-6">
+		<label >指标：</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payUvRate" ckbType="4" name="chnlTypeCharCkb" checked> 支付转化率
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payPrice" ckbType="5" name="chnlTypeCharCkb"> 客单价
+		</label>
+		<div id="TChnlBar" style="height:200px;width:100%;"></div>
+    </div>
+</div>
+*#
+
+<script type="text/javascript">
+    chnlRegDifferChart = eChartInstant.init(document.getElementById('chnlRegDifferChar'), eChartTheme);
+	chnlRegDifferBar($!{barList});
+	
+    //tChnlPieChart = eChartInstant.init(document.getElementById('TChnlPie'), eChartTheme);
+	//tChnlBarChart = eChartInstant.init(document.getElementById('TChnlBar'), eChartTheme);
+	//tChnlPie($!{regionList});
+</script>

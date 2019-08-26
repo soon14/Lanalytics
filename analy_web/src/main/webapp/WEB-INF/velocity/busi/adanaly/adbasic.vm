@@ -1,0 +1,20 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="广告概况")
+
+<h2 class="sub-header">
+    <span class="small">$BUSI_TITLE</span>
+    <i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="广告分析提供广告信息筛选，广告指标概览和趋势查看功能。" ></i>
+</h2>
+<div class="panel panel-default">
+	<div class="panel-body">
+		#parse("busi/adanaly/adsearchlist.vm")
+		<div id="adIndexAnchor"></div>
+		#parse("busi/adanaly/adindex.vm")
+	</div>
+</div>
+<link href="$CSS_PATH/tablesorter.default.css" rel="stylesheet">
+<script src="$CONTEXT_PATH/js/echarts/echarts.js" type="text/javascript" ></script>
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/adanaly/adsearchlist.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/adanaly/adindex.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/adanaly/adindextrend.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

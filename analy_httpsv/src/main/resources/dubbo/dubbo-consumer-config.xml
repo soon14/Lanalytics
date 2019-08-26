@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="ecp_analy_httpsv_app" />
+   
+    <!-- 超时设置 -->
+    <dubbo:consumer timeout="20000" />
+    
+    <!--Zookeeper注册中心  register="false" 只引用服务 ，address为analy dubbo 地址-->
+    <!-- <dubbo:registry id="analyReference" protocol="zookeeper" address="127.0.0.1:2181" register="false"/>-->
+    <dubbo:registry id="analyReference" protocol="zookeeper" address="192.168.5.14:22181,192.168.5.15:22181,192.168.5.16:22181" register="false"/>
+    
+    <!-- 引入analy服务引用-->
+    <import resource="classpath*:/dubbo/dubbo-service-consumer.xml" />
+</beans>

@@ -1,0 +1,47 @@
+#set($layout = "temp_layout.vm")
+#set($proBarColors = ['progress-bar-info','progress-bar-success','','progress-bar-warning','progress-bar-danger'])
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th width="30%">页面</th>
+      <th width="20%">访客数</th>
+      <th width="50%">去向访客数占比</th>
+    </tr>
+  </thead>
+  <tbody>
+	#if($descPage.recordList && $descPage.recordList.size()>0)
+	#foreach($destPv in $descPage.recordList)
+    <tr>
+      <td realurl="$!{destPv.nextPageName}">#formatUrlToName("$!{destPv.nextPageName}")</td>
+      <td>$!{destPv.uv}</td>
+      <td>
+		#set($destScale=$destPv.scale*100)
+		#set($destIndex=$velocityCount%5)
+		<div class="progress">
+		  <div class="progress-bar $proBarColors[$destIndex]" style="width: $destScale%;min-width:1em">
+              <span style="color:#000">#formatNumber("$!{destScale}","#0.0")%</span>
+		  </div>
+		</div>
+	  </td>
+    </tr>
+	#end
+	#if($showPage == "more")
+		#if($descPage.recordCount>5)
+		<tr >
+            <td></td>
+			<td></td>
+            <td><a href="javascript:void(0);" onclick="searchDestData(1)">查看更多</a></td>
+		</tr>
+		#end
+	#end
+	#else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+#if($showPage == true)
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="destPvPagerId" data-count="$!{descPage.recordCount}" data-size="$!{descPage.pageSize}" data-currentindex="$!{descPage.currentPage}" >
+	</span>
+</div>
+#end

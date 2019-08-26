@@ -1,0 +1,49 @@
+#set($layout = "temp_layout.vm")
+<form class="form-inline fr">
+    <button id="exportFlowDataBtn" class="btn btn-default" type="button">导出</button>
+</form>
+<div >
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th col_name="month">月份</th>
+                <th col_name="uv">访客数（uv）</th>
+                <th col_name="pv">访客量（pv）</th>
+                <th col_name="registerStaff">新注册用户数</th>
+                <th col_name="bounceRate">跳失率</th>
+                <th col_name="avgPv">平均浏览页面</th>
+                <th col_name="avgStay">平均停留时间（秒）</th>
+            </tr>
+        </thead>
+        <tbody>
+            #if($pageData.recordList && $pageData.recordList.size()>0)
+                #foreach($row in $pageData.recordList)
+                    #set($rankIndex = $velocityCount + $pageData.pageSize * ($pageData.currentPage - 1))
+                    <tr>
+                        <td>$!{row.month}</td>
+                        <td>$!{row.uv}</td>
+                        <td>$!{row.pv}</td>
+                        <td>$!{row.registerStaff}</td>
+                        <td>#percentNumber("$!{row.bounceRate}","#0.0")</td>
+                        <td>#formatNumber("$!{row.avgPv}","#0.0")</td>
+                        <td>#formatNumber("$!{row.avgStay}","#0.0")</td>
+                    </tr>
+                #end
+                #else
+                    <tr>
+                        <td colspan="20">暂无数据</td>
+                    </tr>
+            #end
+        </tbody>
+    </table>
+    <div  class="pagerBar" style="margin-top:0px;">
+        <span id="flowMonthSumPagerId" data-count="$!{pageData.recordCount}" data-size="$!{pageData.pageSize}" data-currentindex="$!{pageData.currentPage}" >
+        </span>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#exportFlowDataBtn').click(function(){
+    	var params = getQueryParams();
+    	window.location = preUrl+'exportFlowMonthSum.xls?dateFrom='+params.dateFrom+'&dateTo='+params.dateTo;
+    });
+</script>

@@ -1,0 +1,47 @@
+#set($layout = "temp_layout.vm")
+<style type="text/css">
+    .w_1 .mapTitle{
+    	position: absolute;
+    	right: 104px;
+    	top: 120px;
+    	font-size: 14px;
+    }
+    .w_1 .tableBox {
+        position: absolute;
+        width: 160px;
+        top: 195px;
+        right: 35px;
+    }
+</style>
+
+<h2 style="margin-left:180px;">流量地图</h2>
+<div id="flowMap" style="height:100%;width:100%;"><!-- 图表区 --></div>
+<h3 class="mapTitle">访客数（UV）</h3>
+<div class="tableBox">
+	<table class="table">
+		<thead>
+			<th>排名</th>
+			<th>省份</th>
+			<th>占比</th>
+		</tr></thead>
+		<tbody>
+			#if($mapData && $mapData.size()>0)
+				#foreach($row in $mapData)
+    				#if($velocityCount<4)
+    			    <tr>
+					  <td>$velocityCount</td>
+    			      <td>$!{row.provinceName}</td>
+    			      <td>#percentNumber("$!{row.scale}","#0.0")</td>
+    			    </tr>
+    				#end
+				#end
+			#else
+                <tr><td colspan="20">暂无数据</td></tr>
+		    #end
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+    mapChart = eChartInstant.init(document.getElementById('flowMap'));//流量地图
+	renderMapChart(${mapData});
+</script>

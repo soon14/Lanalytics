@@ -1,0 +1,30 @@
+#set($layout = "temp_layout.vm")
+<style>
+	.popover{
+	    max-width: 526px;
+	}
+</style>
+<div class="row placeholders">
+    <div class="col-xs-12 col-sm-12 placeholder">
+        <div class="col-lg-4">
+	       	 <h4>连锁渠道与非连锁渠道</h4>
+             <div id="flowPie1" style="height:175px;"></div>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-3">
+	       	 <h4>是否商品白名单访客</h4>
+			 <div id="flowPie2" style="height:175px;"></div>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-5">
+	       	 <h4>渠道购买力分布</h4>
+			 <div id="flowPie3" style="height:175px;"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    pieChart1 = eChartInstant.init(document.getElementById('flowPie1'),eChartTheme);
+	pieChart2 = eChartInstant.init(document.getElementById('flowPie2'),eChartTheme);
+	pieChart3 = eChartInstant.init(document.getElementById('flowPie3'),eChartTheme);
+    renderPieChart($!{data});
+</script>
+		

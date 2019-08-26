@@ -1,0 +1,12 @@
+<toolbox>
+	<tool>
+		<key>date</key>
+		<scope>application</scope>
+		<class>org.apache.velocity.tools.generic.DateTool</class>
+	</tool>
+	<tool>
+	   <key>aiTool</key>
+	   <scope>application</scope>
+	   <class>com.ai.analy.system.util.VelocityToolsUtils</class>
+	</tool>
+</toolbox>

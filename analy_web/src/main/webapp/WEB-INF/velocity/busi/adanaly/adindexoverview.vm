@@ -1,0 +1,40 @@
+#set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+
+<div class="col-xs-12 col-sm-12 placeholder">
+	<h5 class="sub-header">
+		指标概览
+	</h5>
+    <div class="col-xs-2 col-sm-2">
+      <span class="text-primary">
+		访问数
+      	<i class="glyphicon" data-trigger="hover" data-toggle="popover" title=""></i>
+      </span>
+      <h3>$!{data.uv}</h3>
+      <span class="text-muted">较上期 <b class="#setTextClass($data.uvCompare)">#percentNumber("$!{data.uvCompare}","#0.0")</b></span>
+    </div>
+	<div class="col-xs-2 col-sm-2">
+      <span class="text-primary">
+		访问量
+      	<i class="glyphicon" data-trigger="hover" data-toggle="popover" title=""></i>
+      </span>
+      <h3>$!{data.pv}</h3>
+      <span class="text-muted">较上期 <b class="#setTextClass($data.pvCompare)">#percentNumber("$!{data.pvCompare}","#0.0")</b></span>
+    </div>
+    <div class="col-xs-2 col-sm-2">
+      <span class="text-primary">
+      	下单率
+      	<i class="glyphicon" data-trigger="hover" data-toggle="popover" title=""></i>
+      </span>
+      <h3>$!{data.orderUvRate}</h3>
+      <span class="text-muted">较上期 <b class="#setTextClass($data.orderUvRateCompare)">#percentNumber("$!{data.orderUvRateCompare}","#0.0")</b></span>
+    </div>
+	<div class="col-xs-2 col-sm-2">
+      <span class="text-primary">
+		支付成功率
+      	<i class="glyphicon" data-trigger="hover" data-toggle="popover" title="" ></i>
+      </span>
+      <h3>#percentNumber("$!{data.payUvRate}","#0.0")</h3>
+      <span class="text-muted">较上期 <b class="#setTextClass($data.payUvRateCompare)">#percentNumber("$!{data.payUvRateCompare}","#0.0")</b></span>
+    </div>
+</div>

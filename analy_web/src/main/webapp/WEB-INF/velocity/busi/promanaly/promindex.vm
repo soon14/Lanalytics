@@ -1,0 +1,51 @@
+<!--促销列表-->
+<div id="promIndexDiv" style="display:none">
+    <h4 class="text-left">
+        <i class="glyphicon glyphicon-equalizer"></i>
+        <b id="promIndexHead">促销指标明细</b>
+    </h4>
+	<head>
+		<style type="text/css">
+		
+		#promIndexDiv .nav > li > a {
+            padding: 5px 10px;
+			margin-top: 5px;
+        }
+		
+		#promIndexDateCompDiv .nav > li > a {
+            ##padding: 5px 10px;
+			margin-top: 0px;
+        }
+		</style>
+	</head>
+	#parse("busi/promanaly/promindexparamsbar.vm")
+	
+	<div class="row placeholders">
+		<div id="promIndexOverviewDiv"></div>
+		
+		<div id="promIndexTrendDiv"></div>
+		
+		<div id="promGdsTableDiv"></div>
+		
+		<!-- Modal -->
+		<!--此处class不能有fade，否则echarts初始化趋势图失败-->
+        <div class="modal" id="gdsindex-modal" style="text-align: left;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="modal-title" id="TopRateModalLabel">商品指标明细</h3>
+						<h5 id="gdsindex-gdsname">商品：</h5>
+        				<h5 id="gdsindex-daterange">时间：</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive" id="gdsindex-detaildiv">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

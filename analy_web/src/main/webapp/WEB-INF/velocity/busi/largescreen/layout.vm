@@ -1,0 +1,107 @@
+#parse("sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    	<meta charset="UTF-8">
+    	<title>$!{BUSI_TITLE}</title>
+			
+		<link rel="stylesheet" type="text/css" href="$CONTEXT_PATH/largescreen/css/bootstrap.css">
+	    <link rel="stylesheet" type="text/css" href="$CONTEXT_PATH/largescreen/css/screenStyle.css">	
+	    <link rel="stylesheet" type="text/css" href="$CONTEXT_PATH/largescreen/iconfont/iconfont.css">
+			
+		<script src="$CONTEXT_PATH/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+		<script src="$CONTEXT_PATH/js/ajax.js" type="text/javascript" ></script>
+		
+		<script type="text/javascript">
+		    var WEB_ROOT = "$CONTEXT_PATH";
+		
+            var g_currentYear = $date.get("yyyy");
+        	var g_currentMonth= $date.get("M")-1;
+        	var g_currentDay = $date.get("d");
+        	var g_currentDate = new Date(g_currentYear,g_currentMonth,g_currentDay);
+			
+			// 例子： 
+            // (new Date()).Format("yyyy-MM-dd") ==> 2006-07-02
+            Date.prototype.Format = function(fmt) 
+            { //author: meizz 
+              var o = { 
+                "M+" : this.getMonth()+1,                 //月份 
+                "d+" : this.getDate(),                    //日 
+                "h+" : this.getHours(),                   //小时 
+                "m+" : this.getMinutes(),                 //分 
+                "s+" : this.getSeconds(),                 //秒 
+                "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+                "S"  : this.getMilliseconds()             //毫秒 
+              }; 
+              if(/(y+)/.test(fmt)) 
+                fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+              for(var k in o) 
+                if(new RegExp("("+ k +")").test(fmt)) 
+              fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+              return fmt; 
+            }
+		
+			 $(document).ready(function(){
+			
+    		    $("#params_date > li > a").click(function(){
+    			    
+            		$("#params_date > li.active").removeClass("active");
+					$("#params_date >> i.triangle").removeClass("triangle");
+            		$(this).parent().addClass("active");
+					$(this).next().addClass("triangle");
+        			var source = $(this).parent().attr("param");
+        			
+            		queryDate(getQueryParams());
+					
+					$(this).blur();
+            	});
+			
+			});
+			
+			function getQueryParams(){
+				var dateSource = $("#params_date > li.active").attr("param");
+				dateSource = parseInt(dateSource);
+				
+    			var dateFrom = new Date(g_currentDate.getTime() - dateSource*24*60*60*1000);
+    			var dateTo = g_currentDate;
+    			if(dateSource == 1){
+    			    dateTo = dateFrom;
+    			}
+    			if(dateSource>1){
+    			    dateTo = new Date(g_currentDate.getTime() - 1*24*60*60*1000);
+    				dateFrom = new Date(dateTo.getTime() - dateSource*24*60*60*1000);
+    			}
+				
+				
+				
+            	var params = {
+            		source:"0",
+        			dateFrom:dateFrom.Format("yyyy-MM-dd"),
+        			dateTo:dateTo.Format("yyyy-MM-dd")
+            	};
+        		
+        		return params;
+        	}
+			
+        </script>
+	</head>
+	<body>
+		<div class="wrap">
+			<!--左右控制按钮-->
+            <div class="hide_btn">
+            	<a onclick="window.location.href='$!{prePage}'" class="hide_l"></a>
+            	<a onclick="window.location.href='$!{nextPage}'" class="hide_r"></a>
+            </div>
+			<head>
+				#set($sessionStaff = $session.getAttribute("analystaffSession"))
+        		<h1>$BUSI_TITLE<small>$sessionStaff.userName</small></h1>
+        		<ul class="nav nav-pills timeNav" id="params_date">
+        			<li param="0" role="presentation"><a href="javascript:void(0);">今天</a><i class=""></i></li>
+        			<li param="6" role="presentation" class="active"><a href="javascript:void(0);">7天</a><i class="triangle"></i></li>
+        			<li param="29" role="presentation"><a href="javascript:void(0);">30天</a><i class=""></i></li>
+        		</ul>
+        	</head>
+			$screen_content
+		</div>
+    </body>
+</html>

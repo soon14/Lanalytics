@@ -1,0 +1,120 @@
+#set($layout = "temp_layout.vm")
+
+<div class="placeholder">
+	<div class="col-md-7">
+		<label >我的行业排名</label>
+		<dl class="shop_info">
+			<dt><img src="http://132.37.5.1:19421/ImageServer/image/$!{tradeRankVo.shopLogo}_80x80.jpg" width="80"></dt>
+				<dd >
+					<p>近一周交易额进行排名</p>
+					<p>第<font size="7">$!{tradeRankVo.amountRank}</font></span>名 <span class="label label-info">第一层级</span></p>
+					<p>较上周
+					#if("$!{rankPreFlag}" == "up")
+					<i class="glyphicon glyphicon-arrow-up col_orange"></i>
+					#else
+					<i class="glyphicon glyphicon-arrow-down col_green"></i>
+					#end
+					<b class="col_orange">$!{preRank}名</b>
+					</p>
+				</dd>
+		</dl>
+	</div>
+    
+    <div class="col-md-5">
+		<label >我的排名</label>
+		<div class="shop_level">
+			<ul class="nav nav-pills nav-justified">
+				<li #if("$!{rankLevel}" == "1") class="active" #end>
+					<a class="level_1"></a>
+					<span>第一层级</span>
+					<i class="">0%</i>
+				</li>
+				<li #if("$!{rankLevel}" == "2") class="active" #end>
+					<a  class="level_2"></a>
+					<span><strong>第二层级</strong></span>
+					<i class="">20%</i>
+				</li>
+				<li #if("$!{rankLevel}" == "3") class="active" #end>
+					<a class="level_3"></a>
+					<span>第三层级</span>
+					<i class="">40%</i>
+				</li>
+				<li #if("$!{rankLevel}" == "4") class="active" #end>
+					<a class="level_4"></a>
+					<span>第四层级</span>
+					<i class="">60%</i>
+				</li>
+				<li #if("$!{rankLevel}" == "5") class="active" #end>
+					<a class="level_5"></a>
+					<span>第五层级</span>
+					<i >80%</i>
+					<i class="fr">100%</i>
+				</li>
+			</ul>
+        </div>
+        <br>
+		<p class="shop_level_txt">注：我的行业排名是将人卫智城平台上的所有店铺，按照一周交易额进行排名，按销量在前20%，20%~40%，40%~60%，60%~80%，80%~100%划分层级展示店铺所在层级。</p>
+    </div>
+</div>
+	
+<div class="placeholder">
+	<div class="col-md-7">
+		<br/>
+		<label >我的行业排名趋势</label>
+		<div id="ranTrend" style="height:200px;width:100%;"></div>
+		<table class="table table-striped" id="tradeAmount">
+			  <thead>
+			    <tr>
+			      <td width="75px">&nbsp;</td>
+				  #if($trendTimeData && $trendTimeData.size()>0)
+        		  #foreach($row in $trendTimeData)
+    			    <td>$!{row}</td>
+    			  #end
+    			  #end
+			    </tr>
+			  </thead>
+			  <tbody>
+			    #if($trendTableData && $trendTableData.size()>0)
+    			#foreach($rows in $trendTableData)
+				<tr>
+					#foreach($row in $rows)
+						<td>$!{row}</td>
+					#end
+				</tr>
+				#end
+				#end
+			  </tbody>
+        </table>
+	</div>
+    
+    <div class="col-md-5">
+		<br/>
+		<label >平台店铺销量TOP10</label>
+		<table class="table table-striped" id="tradeAmount">
+			  <thead>
+			    <tr>
+			      <th width="50px">排名</th>
+			      <th>店铺</th>
+			      <th>销量</th>
+			      <th width="100px">较上月变动</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($rankTopList && $rankTopList.size()>0)
+    			#foreach($row in $rankTopList)
+				<tr #if("${row.shopId}" == "${curShopId}") style="color:red;" #end>
+                    <td>$!{row.countRank}</td>
+                    <td>$!{row.shopName}</td>
+                    <td>$!{row.tradeCount}</td>
+                    <td>#percentNumber("$!{row.countCompare}","#0.0")</td>
+				</tr>
+				#end
+				#end
+              </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    ranTrendChart = eChartInstant.init(document.getElementById('ranTrend'), eChartTheme);
+	initRanTrend(${trendLineData});
+</script>

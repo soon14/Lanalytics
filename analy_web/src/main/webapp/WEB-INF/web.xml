@@ -1,0 +1,101 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app>
+    <display-name>analy_web</display-name>
+    
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+
+    <filter>
+		<filter-name>encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+    <filter>
+        <filter-name>CacheSessionFilter</filter-name>
+        <display-name>CacheSessionFilter</display-name>
+        <filter-class>com.ai.analy.system.session.CacheSessionFilter</filter-class>
+        <init-param>
+            <param-name>ignore_suffix</param-name>
+            <param-value>.ico,.swf,.flv,.png,.jpg,.jpeg,.gif,.css,.js,.html,.htm,.eot,.svg,.ttf,.woff</param-value>
+        </init-param>
+    </filter>
+
+    <!-- 登录身份验证Filter-->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.ai.analy.system.filter.LoginFilter</filter-class>
+        <init-param>
+            <param-name>ignore_suffix</param-name>
+            <param-value>.ico,.swf,.flv,.png,.jpg,.jpeg,.gif,.css,.js,.html,.htm,.eot,.svg,.ttf,.woff</param-value>
+        </init-param>
+        <init-param>
+            <param-name>loginPage</param-name>
+            <param-value>/login</param-value>
+        </init-param>
+       <init-param>
+            <param-name>mainPage</param-name>
+            <param-value>/flowAnaly/flowbasic</param-value>
+        </init-param>
+        <init-param>
+            <param-name>notlogin_pages</param-name>
+            <param-value>/login,/404,/error,/system/sessionOut,/system/logout,/system/noAuth</param-value>
+        </init-param>
+    </filter> 
+
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<filter-mapping>
+		<filter-name>CacheSessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+    <!-- 用户分析原始LoginFilter-->
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<servlet-name>springmvc</servlet-name>
+	</filter-mapping>
+    
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+     <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping> 
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/404</url-pattern>
+    </servlet-mapping> 
+    
+	 <welcome-file-list>
+		<welcome-file>login</welcome-file>
+	</welcome-file-list>
+
+    <error-page>
+		<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
+
+</web-app>

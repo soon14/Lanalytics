@@ -1,0 +1,6 @@
+#set($CONTEXT_PATH = ${request.getContextPath()})
+#set($RESOURCE_PATH = ${CONTEXT_PATH}+'/js')
+#set($IMAGE_PATH = ${CONTEXT_PATH}+'/images')
+#set($CSS_PATH = ${CONTEXT_PATH}+'/css')
+#set($BUSIJS_PATH = ${CONTEXT_PATH}+'/js-busi')
+#set($JS_VERSION = "1.1.1")

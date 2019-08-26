@@ -1,0 +1,56 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="经营概况")
+<h2 class="sub-header">
+    <span class="small">$BUSI_TITLE</span>
+    <i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="经营概况分为流量月报、销售量及订单量统计月报、商品分类销售情况报表、订购次数分布报表四部分。" ></i>
+</h2>
+<div class="panel panel-default">
+	#parse("busi/operationanaly/basic/paramsbar.vm")
+    <div class="panel-body">
+        <!--流量月报-->
+        <h4 class="text-left">
+            <i class="glyphicon glyphicon-equalizer"></i>
+            <b>流量月报</b>
+        </h4>
+        <div id="flowMonthSumDiv">
+        </div>
+        <div id="flowMonthSumTableDiv">
+        </div>
+		<div id="flowMonthSumLineDiv">
+        </div>
+		
+		<!--销售量及订单量统计月报-->
+        <h4 class="text-left">
+            <i class="glyphicon glyphicon-equalizer"></i>
+            <b>销售量及订单量统计月报</b>
+        </h4>
+        <div id="tradeMonthSumDiv">
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<!--商品分类销售情况报表-->
+        <h4 class="text-left"">
+            <i class="glyphicon glyphicon-equalizer"></i>
+            <b>商品分类销售情况报表</b>
+        </h4>
+        <div id="tradeCategorySumDiv">
+        </div>
+		
+		<!--下单次数分布报表-->
+        <h4 class="text-left"">
+            <i class="glyphicon glyphicon-equalizer"></i>
+            <b>下单次数分布报表</b>
+        </h4>
+        <div id="tradeOrdersTypeSumDiv">
+        </div>
+	</div>
+</div>
+<script>
+    var g_target = "${target_HOME_PAGE}";
+</script>
+<script src="$CONTEXT_PATH/js/echarts/echarts.js" type="text/javascript" ></script>
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/operationanaly/operationbasic.js?ver=$!{JS_VERSION}" type="text/javascript"></script>
+<script src="$BUSIJS_PATH/operationanaly/flowline.js?ver=$!{JS_VERSION}" type="text/javascript"></script>

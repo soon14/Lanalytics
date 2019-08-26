@@ -1,0 +1,82 @@
+#set($layout = "temp_layout.vm")
+<!--流量趋势 -->
+<h4 class="text-left">
+	<i class="glyphicon glyphicon-equalizer"></i>
+ 	<b>交易趋势</b>
+</h4>
+<div class="table_data" style="padding-left:35px;">
+ 	<p>
+ 		<label>流量相关：</label>
+ 		<label class="checkbox-inline" style="width:11.15em;">
+			<input type="checkbox" value="pv" ckbType="1" name="flowTrendCkb" checked>商品浏览量
+		</label>
+		<label class="checkbox-inline" style="width:10.5em;">
+			<input type="checkbox" value="uv" ckbType="1" name="flowTrendCkb"> 商品访客数
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="gv" ckbType="1" name="flowTrendCkb"> 被访商品数
+		</label>
+ 	</p>
+	<p>
+ 		<label>访问质量：</label>
+ 		<label class="checkbox-inline" style="width:11.15em;">
+			<input type="checkbox" value="stayAvg" ckbType="2" name="flowTrendCkb">平均停留时长（秒）
+		</label>
+		<label class="checkbox-inline" style="width:10.5em;">
+			<input type="checkbox" value="exitRate" ckbType="3" name="flowTrendCkb">商品详情页跳失率
+		</label>
+ 	</p>
+	<p>
+ 		<label>转化效果：</label>
+ 		<label class="checkbox-inline" style="width:11.15em;">
+			<input type="checkbox" value="orderUvRate" ckbType="4" name="flowTrendCkb">下单转化率
+		</label>
+		<label class="checkbox-inline" style="width:10.5em;">
+			<input type="checkbox" value="orderPayUvRate" ckbType="4" name="flowTrendCkb">下单-支付转化率
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payUvRate" ckbType="4" name="flowTrendCkb">支付转化率
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="orderMoney" ckbType="5" name="flowTrendCkb">下单金额
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payMoney" ckbType="5" name="flowTrendCkb">支付金额
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payPrice" ckbType="5" name="flowTrendCkb">客单价
+		</label>
+		</p>
+		<p>
+ 		<label style="padding-left:67px;">&nbsp;</label>
+		<label class="checkbox-inline" style="width:11.15em;">
+			<input type="checkbox" value="orderCount" ckbType="6" name="flowTrendCkb">下单件数
+		</label>
+		<label class="checkbox-inline" style="width:10.5em;">
+			<input type="checkbox" value="orderUv" ckbType="6" name="flowTrendCkb">下单买家数
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payUv" ckbType="6" name="flowTrendCkb">支付买家数
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="payCount" ckbType="6" name="flowTrendCkb">支付件数
+		</label>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="cartCount" ckbType="6" name="flowTrendCkb">加入购物车商品件数
+		</label>
+ 	</p>
+</div>
+
+
+<div class="row placeholders">
+    <div class="col-xs-12 col-sm-12 placeholder">
+		<div class="col-lg-12">
+			 <div id="flowLine" style="height:250px;width:100%;"></div>
+        </div>
+    </div>
+</div>
+	
+<script type="text/javascript">
+    lineChart = eChartInstant.init(document.getElementById('flowLine'),eChartTheme);
+	renderLineChart(${data});
+</script>

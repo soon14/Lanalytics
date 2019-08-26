@@ -1,0 +1,70 @@
+#set($layout = "temp_layout.vm")
+#macro(tradeSetTextClass $number)
+#if($number > 0)
+glyphicon glyphicon-arrow-up col_orange
+#else
+glyphicon glyphicon-arrow-down col_green
+#end
+#end
+<div class="wb_pyramid">
+	<div class="wb_order_pc">
+		<p>下单转化率</p>
+		<p>#percentNumber("$!{goodsOverviewVo.orderUvRate}","#0.0")</p>
+	</div>
+	<div class="wb_order_paypc">
+		<p>下单-支付转化率 <!--<a class="wb_ask" href="#">--></a></p>
+		<p>#percentNumber("$!{goodsOverviewVo.orderPayUvRate}","#0.0")</p>
+	</div>
+	<div class="wb_paypc">
+		<p>支付转化率</p>
+		<p>#percentNumber("$!{goodsOverviewVo.payUvRate}","#0.0")</p>
+	</div>
+	<ul class="wb_pyramid_one">
+		<li>
+			<p>访客数<i></i></p>
+			<p>
+				$!{goodsOverviewVo.uv}
+				<i class="#tradeSetTextClass(${goodsOverviewVo.uvCompare})"/>
+			</p>
+		</li>
+	</ul>
+	<ul class="wb_pyramid_two">
+		<li>
+			<p>下单买家数<i></i></p>
+			<p>
+				$!{goodsOverviewVo.orderUv}
+			    <i class="#tradeSetTextClass(${goodsOverviewVo.orderUvCompare})"/>
+			</p>
+		</li>
+		<li>
+			<p>下单金额（元）<i></i></p>
+			<p>
+				#moneyNumber("$!{goodsOverviewVo.orderAmount}","#0.00")
+				<i class="#tradeSetTextClass(${goodsOverviewVo.orderAmountCompare})"/>
+			</p>
+		</li>
+	</ul>
+	<ul class="wb_pyramid_three">
+		<li>
+			<p>支付买家数<i></i></p>
+			<p>
+				$!{goodsOverviewVo.payUv}
+			    <i class="#tradeSetTextClass(${goodsOverviewVo.payUvCompare})"/>
+			</p>
+		</li>
+		<li>
+			<p>支付金额（元）<i></i></p>
+			<p>
+				#moneyNumber("$!{goodsOverviewVo.payAmount}","#0.00")
+			    <i class="#tradeSetTextClass(${goodsOverviewVo.payAmountCompare})"/>
+			</p>
+		</li>
+		<li>
+			<p>客单价（元）<i></i></p>
+			<p>
+				#moneyNumber("$!{goodsOverviewVo.payPrice}","#0.00")
+				<i class="#tradeSetTextClass(${goodsOverviewVo.payPriceCompare})"/>
+			</p>
+		</li>
+	</ul>
+</div>

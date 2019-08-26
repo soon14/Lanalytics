@@ -1,0 +1,49 @@
+#set($layout = "temp_layout.vm")
+#set($proBarColors = ['progress-bar-info','progress-bar-success','','progress-bar-warning','progress-bar-danger'])
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th width="30%">页面</th>
+      <th width="20%">访客数</th>
+      <th width="50%">来源访客数占比</th>
+    </tr>
+  </thead>
+  <tbody>
+	#if($sourcePage.recordList && $sourcePage.recordList.size()>0)
+	#foreach($sourcePv in $sourcePage.recordList)
+    <tr>
+      <td realurl="$!{sourcePv.pageName}">#formatUrlToName("$!{sourcePv.pageName}")</td>
+      <td>$!{sourcePv.uv}</td>
+      <td>
+		#set($sourceScale=$sourcePv.scale*100)
+		#set($sourceIndex=$velocityCount%5)
+		<div class="progress">
+		  <div class="progress-bar $proBarColors[$sourceIndex]" style="width: $sourceScale%;min-width:1em">
+              <span style="color:#000">#formatNumber("$!{sourceScale}","#0.0")%</span>
+		  </div>
+		</div>
+	  </td>
+    </tr>
+	#end
+	#if($showPage == "more")
+		#if($sourcePage.recordCount>5)
+		<tr >
+            <td></td>
+			<td></td>
+            <td><a href="javascript:void(0);" onclick="searchSourceData(1)">查看更多</a></td>
+		</tr>
+		#end
+	#end
+	#else
+		<tr>
+          <td colspan="20">暂无数据</td>
+        </tr>
+	#end
+  </tbody>
+</table>
+#if($showPage == true)
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="sourcePvPagerId" data-count="$!{sourcePage.recordCount}" data-size="$!{sourcePage.pageSize}" data-currentindex="$!{sourcePage.currentPage}" >
+	</span>
+</div>
+#end

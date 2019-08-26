@@ -1,0 +1,35 @@
+#set($layout = "temp_layout.vm")
+<div class="col-xs-6 col-sm-3 placeholder">
+  <span class="text-primary">
+  	搜索进入访客数
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" data-content="在统计期内访客通过人卫智城搜索引擎查找商品或者店铺后进入店铺的访客数" ></i>
+  </span>
+  <h3>$!{data.uv}</h3>
+</div>
+<div class="col-xs-6 col-sm-3 placeholder">
+  <span class="text-primary">
+  	总访客占比
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" data-content="在统计期内搜索进入店铺的访客占总访客数的百分比" ></i>
+  </span>
+  <h3>#percentNumber("$!{data.uvPercent}","#0.0")</h3>
+</div>
+<div class="col-xs-6 col-sm-3 placeholder">
+  <span class="text-primary">
+  	搜索转化率
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" data-content="通过搜索进入店铺产生订单的访客数占搜索进入访客数的百分比" ></i>
+  </span>
+  <h3>#percentNumber("$!{data.orderUvRate}","#0.0")</h3>
+</div>
+<div class="col-xs-6 col-sm-3 placeholder">
+  <span class="text-primary">
+  	进入平台搜索的关键词数量
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" data-content="在统计周期内访客通过搜索进入店铺的关键词总量" ></i>
+  </span>
+  <h3>$!{data.keyWordsNum}</h3>
+</div>
+
+<script type="text/javascript">
+    initPopover();
+</script>
+
+		

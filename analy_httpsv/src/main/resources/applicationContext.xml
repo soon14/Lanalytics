@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- spring 上下文 -->
+    <bean class="com.ai.analy.system.util.SpringContextUtil"></bean>
+    
+    <!-- 引入公共定义 -->
+    <import resource="classpath*:/commonService.xml" />
+    <!-- 引入服务定义 -->
+    <import resource="classpath*:/dubbo/dubbo-consumer-config.xml" />
+</beans>

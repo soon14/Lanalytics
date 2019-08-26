@@ -1,0 +1,100 @@
+#set($layout = "temp_layout.vm")
+<!--流量地图 -->
+<h4 class="text-left">
+	<i class="glyphicon glyphicon-equalizer"></i>
+ 	<b>流量地图</b>
+ 	<span id="exportMapBtn" class="pull-right btn btn-default btn-sm">
+	导出
+    </span>
+</h4>
+<div class="row placeholder sub-header">
+	<div class="col-md-7">
+		<div id="flowMap" style="height:350px;width:100%;"></div>
+	</div>
+	
+    <div class="col-md-5">
+    	<div>
+    	
+		</div>
+    	<div class="table-responsive">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th>省份</th>
+			      <th>访客数</th>
+			      <th>百分比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($data && $data.size()>0)
+    				#foreach($row in $data)
+    				
+        				#if($velocityCount<11)
+        			    <tr>
+        			      <td>$!{row.provinceName}</td>
+        			      <td>$!{row.uv}</td>
+        			      <td>#percentNumber("$!{row.scale}","#0.0")</td>
+        			    </tr>
+        				#end
+        				#if($velocityCount==10)
+        				<tr >
+                            <td></td>
+							<td></td>
+                            <td><a href="javascript:void(0);" onclick="$('#MapMoreDateModal').modal('show');">查看全部</a></td>
+						</tr>
+        				#end
+    				#end
+				#else
+                    <tr><td colspan="20">暂无数据</td></tr>
+                #end
+			  </tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="MapMoreDateModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="SearchDateModalLabel">流量地图</h3>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th>省份</th>
+			      <th>访客数</th>
+			      <th>百分比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($data && $data.size()>0)
+    				#foreach($row in $data)
+        			    <tr>
+        			      <td>$!{row.provinceName}</td>
+        			      <td>$!{row.uv}</td>
+        			      <td>#percentNumber("$!{row.scale}","#0.0")</td>
+        			    </tr>
+					#end
+				#end
+			  </tbody>
+			</table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+	
+<script type="text/javascript">
+    mapChart = eChartInstant.init(document.getElementById('flowMap'),eChartTheme);
+	renderMapChart($data);
+	$('#exportMapBtn').click(function(){
+    	var params = getQueryParams();
+    	window.location = preUrl+'exportMap.xls?dateFrom='+params.dateFrom+'&dateTo='+params.dateTo;
+    });
+</script>

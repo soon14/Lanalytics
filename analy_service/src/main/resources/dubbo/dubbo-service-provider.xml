@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <!-- 流量概况服务  -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.FlowService" ref="flowService" />
+    <!-- 流量地图服务  -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.FlowMapService" ref="flowMapService" />
+    <!-- 用户结构服务  -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.VisitorStructureService" ref="visitorStructureService" />
+    <!-- 商品分析 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.GoodsAnalyService" ref="goodsAnalyService" />
+    <!-- 搜索排行服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.SearchRankingService" ref="searchRankingService" />
+    <!-- 异常商品服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.AbnormalGdsService" ref="abnormalGdsService" />
+    <!-- 自定义url -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.UrlDefinitionService" ref="urlDefinitionService" />
+    <!-- 交易分析服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.TradeService" ref="tradeService" />
+    <!-- 商品排行服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.IGoodsRankService" ref="goodsRankService" />
+    <!-- 猜你喜欢商品推荐服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.IRecommendGoodsService" ref="iRecommendGoodsService" />
+    <!-- 系统配置服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.SystemConfigService" ref="systemConfigService"/>
+    <!-- 促销分析服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.PromService" ref="promService"/>
+    <!-- 广告分析服务 -->
+    <dubbo:service interface="com.ai.analy.service.interfaces.AdService" ref="adService"/>
+</beans>

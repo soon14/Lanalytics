@@ -1,0 +1,61 @@
+#set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>广告语</th>
+	  <!--<th>图片</th>-->
+      <th>所属站点</th>
+      <th>所属模板</th>
+      <th>内容位置</th>
+	  <th>链接类型</th>
+      <th>状态</th>
+      <th>发布时间</th>
+	  <th>失效时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    #if($data.recordList && $data.recordList.size()>0)
+    	#foreach($row in $data.recordList)
+		    <tr>
+		      <td>$!{row.advertiseTitle}</td>
+			  <!--<td><img class="imgBgSmall" width="50" height="50" src='#getGdsImgUrl("$!{row.vfsId}_50x50!.jpg")'></td>-->
+		      <td>$!{row.siteName}</td>
+		      <td>$!{row.templateName}</td>
+		      <td>$!{row.placeName}</td>
+			  <td>
+		        #if($row.linkType == '01') 
+		        	商品
+		        #elseif($row.linkType == '02')
+		        	公告
+		        #elseif($row.linkType == '03')
+		        	促销
+				#elseif($row.linkType == '09')
+		        	其它
+		        #end
+		      </td>
+		      <td>
+		        #if($row.status == 1) 
+		        	已发布
+		        #elseif($row.status == 0)
+		        	未发布
+		        #else
+		        	已失效
+		        #end
+		      </td>
+		      <td>#dateFormat($!{row.pubTime},"yyyy-MM-dd")</td>
+		      <td>#dateFormat($!{row.lostTime},"yyyy-MM-dd")</td>
+		      <td><a href="javascript:void(0);" onclick="loadAdIndex($!{row.id},'$!{row.advertiseTitle}','#dateFormat($!{row.pubTime},"yyyy-MM-dd")','#dateFormat($!{row.lostTime},"yyyy-MM-dd")')">指标明细</a></td>
+		    </tr>
+		#end
+	#else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="adTablePagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>	    

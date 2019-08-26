@@ -1,0 +1,79 @@
+#set($layout = "temp_layout.vm")
+
+#set($proBarColors = ['progress-bar-info','progress-bar-success','','progress-bar-warning','progress-bar-danger'])
+
+<div class="placeholder">
+	<div class="col-md-6">
+		<h3>
+        	<span class="small">平均每笔订单购买商品数量分布</span>
+        	<span class="pull-right btn btn-default btn-sm" onclick="exportChnlBehavior(1)">
+        	 导出
+            </span>
+        </h3>
+		<table class="table table-striped" >
+			  <thead>
+			    <tr>
+			      <th width="25%">购买商品件数</th>
+			      <th width="25%">订单数量</th>
+			      <th width="50%">占比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($list1 && $list1.size()>0)
+					#foreach($row in $list1)
+						<tr>
+                            <td>$!{row.chnlType}件</td>
+                            <td>$!{row.orderCount}</td>
+                            <td>
+							#set($scale=$row.scale*100)
+                    		#set($sourceIndex=$velocityCount%5)
+                    		<div class="progress">
+                    		  <div class="progress-bar $proBarColors[$sourceIndex]" style="width: $scale%;min-width:1em">
+                                  <span style="color:#000">#formatNumber("$!{scale}","#0.0")%</span>
+                    		  </div>
+                    		</div>
+							</td>
+        				</tr>
+					#end
+				#end
+              </tbody>
+        </table>
+	</div>
+	
+    <div class="col-md-6">
+		<h3>
+        	<span class="small">订购次数分布</span>
+        	<span class="pull-right btn btn-default btn-sm" onclick="exportChnlBehavior(2)">
+        	 导出
+            </span>
+        </h3>
+			<table class="table table-striped" >
+			  <thead>
+			    <tr>
+			      <th width="25%">购买商品次数</th>
+			      <th width="25%">客户数量</th>
+			      <th width="50%">占比</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+				#if($list2 && $list2.size()>0)
+					#foreach($row in $list2)
+						<tr>
+                            <td>$!{row.chnlType}次</td>
+                            <td>$!{row.orderCount}</td>
+                            <td>
+							#set($scale=$row.scale*100)
+                    		#set($sourceIndex=$velocityCount%5)
+                    		<div class="progress">
+                    		  <div class="progress-bar $proBarColors[$sourceIndex]" style="width: $scale%;min-width:1em">
+                                  <span style="color:#000">#formatNumber("$!{scale}","#0.0")%</span>
+                    		  </div>
+                    		</div>
+							</td>
+        				</tr>
+					#end
+				#end
+              </tbody>
+        </table>
+    </div>
+</div>

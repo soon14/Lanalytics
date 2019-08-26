@@ -1,0 +1,32 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="分类分析")
+
+<link href="$CSS_PATH/tablesorter.default.css" rel="stylesheet">
+
+<h2 class="sub-header">
+	<span class="small">$BUSI_TITLE</span>
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="分类分析主要是对店铺商品类目、品牌、价格区间以及店铺对商品的自定义分类进行统计和分析，可以选择查看PC端、无线端。各类分析同样通过页签的方式进行切换查看。" ></i>
+</h2>
+	
+<div class="panel panel-default">
+	#parse("busi/common/paramsbar.vm")
+	<div class="panel-body">
+		<span id="exportClassifyBtn" class="pull-right btn btn-default btn-sm">
+		 导出
+	    </span>
+        <ul class="nav nav-tabs" id="categoryTypeId">
+            <li class="active" categoryType="1"><a  href="javascript:void(0);">商品类型</a></li>
+            <li categoryType="2"><a href="javascript:void(0);">商品分类</a></li>
+			<li categoryType="3"><a href="javascript:void(0);">价格区间</a></li>
+        </ul>
+		<div class="table-responsive" id="goodsClassifyTableId">
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="currCatId">
+<input type="hidden" id="currBrandId">
+<input type="hidden" id="catgLevel">
+
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/goodsanaly/goodsclassify.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

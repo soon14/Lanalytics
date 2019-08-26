@@ -1,0 +1,68 @@
+#set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+
+<div class="col-xs-12 col-sm-12 placeholder">
+    <!--商品列表-->
+    <h5 class="sub-header">
+     	促销商品列表
+    </h5>
+    <table class="table table-striped" id="promGdsTable">
+      <thead>
+        <tr>
+          <th class="tablesorter-header" style="background-image:url($IMAGE_PATH/blank.png);">
+    		<div class="tablesorter-header-inner">排名</div>
+    	  </th>
+          <th class="tablesorter-header" style="background-image:url($IMAGE_PATH/blank.png);" width="300px">
+    		<div class="tablesorter-header-inner">商品名称</div>
+    	  </th>
+          <th class="tablesorter-header" style="background-image:url($IMAGE_PATH/blank.png);">
+    		<div class="tablesorter-header-inner">商品状态</div>
+    	  </th>
+          <th col_name="uv">访客量</th>
+          <th col_name="pv">浏览量</th>
+    	  <th col_name="exitRate">详情页跳失率</th>
+    	  <th col_name="orderUvRate">下单转化率</th>
+    	  <th col_name="orderCountAvg">平均下单件数</th>
+    	  <th col_name="payCount">交易量</th>
+    	  <th col_name="payMoney">交易额</th>
+		  #if($request.getParameter("dateFrom") != $request.getParameter("dateTo"))<th data-sorter="false">操作</th>#end
+        </tr>
+      </thead>
+      <tbody>
+        #if($data.recordList && $data.recordList.size()>0)
+        #foreach($row in $data.recordList)
+    	#set($rankIndex = $velocityCount + $data.pageSize * ($data.currentPage - 1))
+        <tr>
+          <td><span class="label label-warning">$rankIndex</span></td>
+          <td>
+          	<dl class="table_img" style="height:50px">
+          		<dt><img class="imgBgSmall" width="50" height="50" src='#getGdsImgUrl("$!{row.picId}_50x50!.jpg")'></dt>
+          		<dd style="width:220px; white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="$!{row.gdsName} $!{row.skuProp}">$!{row.gdsName} $!{row.skuProp}&nbsp;</dd>
+          		<dd>价格：#moneyNumber("$!{row.price}","#0.00")&nbsp;&nbsp;库存：$!{row.stock}&nbsp;</dd>
+    			<dd>ISBN：$!{row.skuIsbn}</dd>
+          		#*<dd>发布时间：#dateFormat($!{row.shelvesTime},"yyyy-MM-dd HH:mm:ss")</dd>*#
+          	</dl>
+    	  </td>
+    	  <td>$!{row.state}</td>
+    	  <td>$!{row.uv}</td>
+    	  <td>$!{row.pv}</td>
+          <td>#percentNumber("$!{row.exitRate}","#0.0")</td>
+          <td>#percentNumber("$!{row.orderUvRate}","#0.0")</td>
+    	  <td>$!{row.orderCountAvg}</td>
+    	  <td>$!{row.payCount}</td>
+    	  <td>#moneyNumber("$!{row.payMoney}","#0.00")</td>
+		  #if($request.getParameter("dateFrom") != $request.getParameter("dateTo"))
+			<td><a href="javascript:void(0);" onclick="popGdsIndexDetailTable($!{row.skuId},'$!{row.gdsName}')">指标详细</a></td>
+		  #end
+		</tr>
+        #end
+        #else
+            <tr><td colspan="20">暂无数据</td></tr>
+        #end
+      </tbody>
+    </table>
+    <div  class="pagerBar" style="margin-top:0px;">
+        <span id="gdsTablePagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+    	</span>
+    </div>
+</div>

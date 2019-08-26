@@ -1,0 +1,96 @@
+#set($layout = "temp_layout.vm")
+<div class="table_data" id="catgCondDiv">
+    <p>
+        <label>商品分类：</label>
+        <a #if(!$request.getParameter("gdscatg1")) class="btn-primary" #else class="btn" #end">全部</a>
+                    #set($gdsCatName ="全部")
+</p>
+<p id="catgCondP1">
+    <label>一级分类：</label>
+    #if($request.getParameter("gdscatg1") == 1115)
+        #set($gdsCatName ="纸质书")
+        #elseif($request.getParameter("gdscatg1") == 1115)
+            #set($gdsCatName ="数字产品")
+    #end 
+    <a #if($request.getParameter("gdscatg1") == 1115) class="btn-primary" #else class="btn" #end catId="1115" catLevel="1">纸质书</a>
+            <a #if($request.getParameter("gdscatg1") == 1199) class="btn-primary" #else class="btn" #end catId="1199" catLevel="1">数字产品</a>
+</p>
+#if($gdsCatgList2 && $gdsCatgList2.size()>0)
+    <p id="catgCondP2">
+        <label>二级分类：</label>
+        #foreach($row in $gdsCatgList2)
+            #if($request.getParameter("gdscatg2") == $row.catId)
+                #set($gdsCatName =$gdsCatName + "->" + $row.catName)
+                #set($btnClass ='btn-primary')
+                #else
+                    #set($btnClass ='btn')
+            #end 
+            <a class="$!{btnClass}" catId="$!{row.catId}" catLevel="2">$!{row.catName}</a>
+        #end
+    </p>
+#end
+#if($gdsCatgList3 && $gdsCatgList3.size()>0)
+    <p id="catgCondP3">
+        <label>三级分类：</label>
+        #foreach($row in $gdsCatgList3)
+            #if($request.getParameter("gdscatg3") == $row.catId)
+                #set($gdsCatName =$gdsCatName + "->" + $row.catName)
+                #set($btnClass ='btn-primary')
+                #else
+                    #set($btnClass ='btn')
+            #end 
+            <a class="$!{btnClass}" catId="$!{row.catId}" catLevel="3">$!{row.catName}</a>
+            <!--<a #if($request.getParameter("gdscatg3") == $row.catId) class="btn-primary" #else class="btn" #end catId="$!{row.catId}" catLevel="3">$!{row.catName}</a>
+            -->
+        #end
+    </p>
+#end
+<span class="pull-right btn btn-default btn-sm" style="margin-left:10px" onclick="exportGoodsTopRateTable()">
+	导出
+</span>
+<span class="pull-right btn btn-default btn-sm" onclick="getGoodsTopRateTable(true)">
+	查看更多
+</span>
+</div>
+<div class="table-responsive" id="TopRateTableId">
+</div>
+<!-- Modal -->
+<div class="modal fade" id="TopRateModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+				#if($request.getParameter("option") == "uv") #set($tabName ="访问量")
+				#elseif($request.getParameter("option") == "payCount") #set($tabName ="交易量")
+				#elseif($request.getParameter("option") == "payMoney") #set($tabName ="交易额")
+				#end
+                <h3 class="modal-title" id="TopRateModalLabel">商品$!{tabName}排行</h3>
+				<h5>商品分类：$!{gdsCatName}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" id="TopRateModalTableId">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#catgCondDiv a").click(function(){
+    	var params = getQueryParams();
+    	catgLevel = $(this).attr("catLevel");
+    	if(catgLevel == 1){
+    		params.gdscatg1 = $(this).attr("catId");
+    	}else if(catgLevel == 2){
+    		params.gdscatg1 = $("#catgCondP1 a.btn-primary").first().attr("catId");
+    		params.gdscatg2 = $(this).attr("catId");
+    	}else if(catgLevel == 3){
+    		params.gdscatg1 = $("#catgCondP1 a.btn-primary").first().attr("catId");
+    		params.gdscatg2 = $("#catgCondP2 a.btn-primary").first().attr("catId");
+    	params.gdscatg3 = $(this).attr("catId");
+    	}
+		
+    	getTop10Page(params);
+    });
+</script>

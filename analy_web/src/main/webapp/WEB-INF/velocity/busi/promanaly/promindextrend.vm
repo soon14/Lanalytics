@@ -1,0 +1,195 @@
+#set($layout = "temp_layout.vm")
+<!--促销指标趋势 -->
+<div class="col-xs-12 col-sm-12 placeholder">
+    <h5 class="sub-header">
+    	指标趋势
+    </h5>
+	<div id="promIndexDateCompDiv" class="table_data" style="padding-left:25px;">
+		<label class="fl" style="padding-top:5px;">时间对比：</label>
+		<ul class="fl nav nav-pills" id="promindex_datecomp_ul">
+			<li param="0" role="presentation" class="active"><a href="javascript:void(0);">不对比</a></li>
+			<li param="1" id="promindex_datecomp_preperiod" datefrom='#dateFormat($!{param.preDateFrom},"yyyy-MM-dd")' dateto='#dateFormat($!{param.preDateTo},"yyyy-MM-dd")' role="presentation"><a href="javascript:void(0);">上一周期</a></li>
+			<li param="2" role="presentation" id="promindex_datecomp_customdef_li"><a href="javascript:void(0);">自定义</a></li>
+        </ul>
+    	<form class="form-inline fl" id="promindex_datecomp_form" style="display:none;margin-left:10px;">
+            <div class="form-group">
+                <div id="datecomp_datefrom" class="input-group date">
+                    <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" readonly >
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>到</label>
+                <div id="datecomp_dateto" class="input-group date">
+                    <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" readonly >
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+    		<button id="dateCompSearchButtonId" class="btn btn-default btn-sm" type="button">查看</button>
+        </form>
+	</div>
+	<div class="table_data" style="margin-bottom:0px;text-align:left;padding-left:25px;">
+     	<div>
+     		<label>指标：</label>
+     		<label class="checkbox-inline">
+    			<input type="checkbox" value="uvs" ckbType="1" name="promIndexTrendCkb" checked>商品访客数（UV）
+    		</label>
+    		<label class="checkbox-inline">
+    			<input type="checkbox" value="pvs"ckbType="1"  name="promIndexTrendCkb"> 商品浏览量（PV）
+    		</label>
+    		<label class="checkbox-inline">
+    			<input type="checkbox" value="exitRates" ckbType="2"  name="promIndexTrendCkb"> 详情页跳失率
+    		</label>
+    		<label class="checkbox-inline">
+    			<input type="checkbox" value="orderUvRates" ckbType="3" name="promIndexTrendCkb"> 下单转化率
+    		</label>
+    		<label class="checkbox-inline">
+    			<input type="checkbox" value="orderCountAvgs" ckbType="4" name="promIndexTrendCkb"> 平均下单件数
+    		</label>
+    		<label class="checkbox-inline">
+    			<input type="checkbox" value="payCounts" ckbType="5" name="promIndexTrendCkb"> 交易量
+    		</label>
+    		<label class="checkbox-inline">
+    			<input type="checkbox" value="payMoneys" ckbType="6" name="promIndexTrendCkb"> 交易额
+    		</label>
+     	</div>
+    </div>
+    <div class="row placeholders">
+        <div class="col-xs-12 col-sm-12 placeholder">
+    		<div class="col-lg-12">
+    			 <div id="promIndexTrendChartDiv" style="height:250px;width:100%;"></div>
+            </div>
+        </div>
+    </div>
+	<div id="datecomp-script">
+	</div>
+</div>	
+<script type="text/javascript">
+	$("#promindex_datecomp_ul > li > a").click(function(){
+		$("#promindex_datecomp_ul > li.active").removeClass("active");
+		$(this).parent().addClass("active");
+		
+		setDateCompBeginAndEndDate();
+	});
+	
+	//查看按钮
+	$("#dateCompSearchButtonId").click(function(){
+		if($("#promindex_datecomp_ul > li.active").attr("param") == "1"){
+	    	$("#promindex_datecomp_ul > li.active").removeClass("active");
+		}
+		$(this).blur();
+		promIndexDateComp();
+	});
+	
+	function setDateCompBeginAndEndDate(){
+	    var dateSource = $("#promindex_datecomp_ul > li.active").attr("param");
+		var dateFromObj = $('#datecomp_datefrom').datetimepicker();
+		var dateToObj = $('#datecomp_dateto').datetimepicker();
+		
+		//不对比
+		if(dateSource == "0"){
+			$("#promindex_datecomp_form").hide();
+			dateCompData = null;
+			resetDateCompOption();
+			
+		}else if(dateSource == "1"){//上一周期
+			$("#promindex_datecomp_form").show();
+			
+			dateFrom = new Date($("#promindex_datecomp_ul > li.active").attr("datefrom"));
+			dateTo = new Date($("#promindex_datecomp_ul > li.active").attr("dateto"));
+			dateFromObj.datetimepicker("setDate",dateFrom);
+			dateToObj.datetimepicker("setDate",dateTo);
+			
+			promIndexDateComp();
+			
+		}else{//自定义
+			$("#promindex_datecomp_form").show();
+			
+			$('#datecomp_datefrom input').val('');
+			$('#datecomp_dateto input').val('');
+			
+			dateCompData = null;
+			resetDateCompOption();
+		}
+		
+		//设置时间
+    	
+		
+		dateFromObj.datetimepicker('setEndDate', g_currentDate);
+		dateToObj.datetimepicker('setEndDate', g_currentDate);
+	 }
+		 
+	//初始化日期控件
+    function initDateCompDatetimepicker(){
+	    var dateFromObj = $('#datecomp_datefrom').datetimepicker();
+    	var dateToObj = $('#datecomp_dateto').datetimepicker();
+		
+    	dateFromObj.on(
+    		"changeDate",
+    	    function(ev){
+				//自动计算结束日期
+    			var dateFrom = dateFromObj.datetimepicker("getDate");
+				
+				var prePeriodDateFrom = new Date($("#promindex_datecomp_preperiod").attr("datefrom"));
+				var prePeriodDateTo = new Date($("#promindex_datecomp_preperiod").attr("dateto"));
+				var days = Math.round((prePeriodDateTo-prePeriodDateFrom)/(1000*60*60*24));
+				dateFrom.setDate(dateFrom.getDate()+days);
+				dateToObj.datetimepicker("setDate",dateFrom);
+				
+				$("#promindex_datecomp_ul > li.active").removeClass("active");
+				$("#promindex_datecomp_customdef_li").addClass("active");
+    	    }
+    	);
+		
+		dateToObj.on(
+    		"changeDate",
+    	    function(ev){
+				//自动计算开始日期
+    			var dateTo = dateToObj.datetimepicker("getDate");
+				
+				var prePeriodDateFrom = new Date($("#promindex_datecomp_preperiod").attr("datefrom"));
+				var prePeriodDateTo = new Date($("#promindex_datecomp_preperiod").attr("dateto"));
+				var days = Math.round((prePeriodDateTo-prePeriodDateFrom)/(1000*60*60*24));
+				dateTo.setDate(dateTo.getDate()-days);
+				dateFromObj.datetimepicker("setDate",dateTo);
+				
+				$("#promindex_datecomp_ul > li.active").removeClass("active");
+				$("#promindex_datecomp_customdef_li").addClass("active");
+    	    }
+    	);
+    }
+	
+	function promIndexDateComp(){
+		if($('#datecomp_datefrom input').val()== '' || $('#datecomp_dateto input').val()== '' ){
+			return;
+		}
+		
+		var dateFrom = $("#promIndexDateFrom").datetimepicker('getDate');
+		var dateTo = $("#promIndexDateTo").datetimepicker('getDate');
+		var compDateFrom = new Date($('#datecomp_datefrom input').val());
+		var compDateTo = new Date($('#datecomp_dateto input').val());
+		if(Math.round((dateTo - dateFrom)/(1000*60*60*24))!=Math.round((compDateTo - compDateFrom)/(1000*60*60*24))){
+			alert("对比时间段天数和指标查询段天数不一致！");
+		}
+		
+		if(!(compDateFrom > dateTo || compDateTo < dateFrom)){
+			alert("对比时间段和指标查询时间段有重叠时间！");
+		}
+		
+    	var params= getIndexQueryParams();
+    	var dateFrom = $('#datecomp_datefrom').datetimepicker("getFormattedDate");
+    	var dateTo = $('#datecomp_dateto').datetimepicker("getFormattedDate");
+    	params.dateFrom = dateFrom;
+    	params.dateTo = dateTo;
+    	
+    	//加载对比数据
+    	ajaxLoadPage(params,preUrl+"getPromIndexDateCompData",$("#datecomp-script"));
+    }
+
+	//初始化时间控件
+	initDateCompDatetimepicker();
+	
+	//渲染趋势图
+    promIndexTrendChart = eChartInstant.init(document.getElementById('promIndexTrendChartDiv'),eChartTheme);
+	renderPromIndexTrendChart(${data});
+</script>

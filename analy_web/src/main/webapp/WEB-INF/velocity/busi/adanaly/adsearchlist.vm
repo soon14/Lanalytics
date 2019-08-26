@@ -1,0 +1,187 @@
+<!--广告列表-->
+<div>
+    <h4 class="text-left">
+        <i class="glyphicon glyphicon-equalizer"></i>
+        <b>广告列表 </b>
+    </h4>
+	
+	<!--搜索框-->
+	<div class="panel panel-default">
+		<div class="panel-body">
+            <div class="row">
+				<div class="col-xs-3">
+                    <select class="form-control input-sm" id="adSite">
+                        <option value="" selected >全部站点</option>
+                        #if($sites && $sites.size()>0)
+                            #foreach($row in $sites)
+                                <option value="$!{row.id}">$!{row.siteName}</option>
+                            #end
+                        #end
+                    </select>
+                </div>
+				<div class="col-xs-3">
+                    <select class="form-control input-sm" id="adTemplate">
+                        <option value="" selected >全部模板</option>
+                    </select>
+                </div>
+				<div class="col-xs-3">
+                    <select class="form-control input-sm" id="adPlace">
+                        <option value="" selected >全部内容位置</option>
+                    </select>
+                </div>
+			</div>
+			<div class="row" style="margin-top:10px">
+                <div class="col-xs-3">
+                    <input id="adTitle" type="text" class="form-control input-sm" placeholder="请输入广告语"/>
+                </div>
+                <div class="col-xs-3">
+                    <select class="form-control input-sm" id="adShopId">
+                        <option value="" selected >全部店铺</option>
+                        #if($shops && $shops.size()>0)
+                            #foreach($row in $shops)
+                                <option value="$!{row.shopId}">$!{row.shopName}</option>
+                            #end
+                        #end
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control input-sm" id="adStatus">
+                        <option value="">全部状态</option>
+                        <option value="1">已发布</option>
+                        <option value="0">未发布</option>
+                        <option value="2">已失效</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px">
+                <div class="col-xs-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label>发布时间：</label>
+                            <div id="pubTimeFrom" class="input-group date">
+                                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>到</label>
+                            <div id="pubTimeTo" class="input-group date">
+                                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-left:20px">
+                            <label>失效时间：</label>
+                            <div id="lostTimeFrom" class="input-group date">
+                                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>到</label>
+                            <div id="lostTimeTo" class="input-group date">
+                                <input class="form-control input-sm" style="width:125px;background:#fff;" type="text"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <button class="btn btn-default btn-sm" id="searchButtonId" type="button" onclick="searchDatas()">查询</button>
+                    </form>
+					<script type="text/javascript">
+
+                        $(document).ready(function(){
+                        	
+                    		//初始化日期控件
+                            function initDatetimepicker(){
+                    		    var pubTimeFromObj = $('#pubTimeFrom').datetimepicker();
+                            	var pubTimeToObj = $('#pubTimeTo').datetimepicker();
+								var lostTimeFromObj = $('#lostTimeFrom').datetimepicker();
+                            	var lostTimeToObj = $('#lostTimeTo').datetimepicker();
+								
+                            	pubTimeFromObj.on(
+                            		"changeDate",
+                            	    function(ev){
+                            			var dateFrom = pubTimeFromObj.datetimepicker("getDate");
+                            			var dateTo = pubTimeToObj.datetimepicker("getDate");
+                    					var resetDateTo = false;
+                            			if(dateFrom-dateTo>0){
+                            				dateTo = dateFrom;
+                    						resetDateTo = true;
+                            			}
+                            			
+                    					if(resetDateTo == true){
+                    					    pubTimeToObj.datetimepicker("setDate",dateFrom);
+                    						pubTimeToObj.datetimepicker('show');
+                    					}
+                            	    }
+                            	);
+                    			
+                    			pubTimeToObj.on(
+                            		"changeDate",
+                            	    function(ev){
+                            			var dateFrom = pubTimeFromObj.datetimepicker("getDate");
+                            			var dateTo = pubTimeToObj.datetimepicker("getDate");
+                    					var resetDateTo = false;
+                            			if(dateFrom - dateTo >0){
+                            				pubTimeFromObj.datetimepicker("setDate",dateTo);
+                            			}
+                            	    }
+                            	);
+								
+								lostTimeFromObj.on(
+                            		"changeDate",
+                            	    function(ev){
+                            			var dateFrom = lostTimeFromObj.datetimepicker("getDate");
+                            			var dateTo = lostTimeToObj.datetimepicker("getDate");
+                    					var resetDateTo = false;
+                            			if(dateFrom-dateTo>0){
+                            				dateTo = dateFrom;
+                    						resetDateTo = true;
+                            			}
+                            			
+                    					if(resetDateTo == true){
+                    					    lostTimeToObj.datetimepicker("setDate",dateFrom);
+                    						lostTimeToObj.datetimepicker('show');
+                    					}
+                            	    }
+                            	);
+                    			
+                    			lostTimeToObj.on(
+                            		"changeDate",
+                            	    function(ev){
+                            			var dateFrom = lostTimeFromObj.datetimepicker("getDate");
+                            			var dateTo = lostTimeToObj.datetimepicker("getDate");
+                    					var resetDateTo = false;
+                            			if(dateFrom - dateTo >0){
+                            				lostTimeFromObj.datetimepicker("setDate",dateTo);
+                            			}
+                            	    }
+                            	);
+                            }
+                    		
+                    		function compare2Date(date1,data2){
+                    		   if(Math.abs(date1.getTime() - data2.getTime()) > g_MaxDateRange*24*60*60*1000){
+                    		       return false;
+                    		   }else{
+                    		       return true;
+                    		   }
+                    		}
+                    		
+                    		initDatetimepicker();
+                    	});
+                    </script>
+                </div>
+            </div>
+		</div>
+	</div>
+	
+	<!--广告列表-->
+	<div class="table-responsive" id="adTableId"></div>
+</div>

@@ -1,0 +1,28 @@
+#set($layout = "temp_layout.vm")
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>URL</th>
+      <th>名称</th>
+	  <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+	#if($data.recordList && $data.recordList.size()>0)
+	#foreach($row in $data.recordList)
+    <tr>
+	  <td>$!{row.url}</td>
+      <td><input type="text" class="form-control" placeholder="请输入界面名称" id="url_$!{row.idx}" value="$!{row.name}"></td>
+      <td><button class="btn btn-default" onclick="updateUrlName(this,'$!{row.idx}')">更新</button></td>
+    </tr>
+	#end
+	#else
+        <tr><td colspan="3">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="urlPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>

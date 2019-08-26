@@ -1,0 +1,35 @@
+#set($layout = "temp_layout.vm")
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>排名</th>
+      <th>搜索关键词</th>
+      <th>检索量</th>
+      <th>占比</th>
+      <th>检索量环比</th>
+    </tr>
+  </thead>
+  <tbody>
+	#if($data.recordList && $data.recordList.size()>0)
+	#foreach($row in $data.recordList)
+	#set($rankIndex = $velocityCount + $data.pageSize * ($data.currentPage - 1))
+    <tr>
+	  <td><span class="label label-warning">$rankIndex</span></td>
+      <td>$!{row.keyWords}</td>
+      <td>$!{row.searchNum}</td>
+      <td>#percentNumber("$!{row.searchNumPercent}","#0.0")</td>
+      <td>#if(${row.searchNumMom}!=0)#percentNumber("$!{row.searchNumMom}","#0.0")#else--#end</td>
+    </tr>
+	#end
+	#else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+
+#if($showPage == true)
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="platformPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>
+#end

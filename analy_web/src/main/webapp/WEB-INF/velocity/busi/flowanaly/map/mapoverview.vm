@@ -1,0 +1,19 @@
+#set($layout = "temp_layout.vm")
+<div class="col-xs-6 col-sm-4 placeholder">
+  <span class="text-primary">
+  	访客数（UV）
+  </span>
+  <h3>$!{data.uv}</h3>
+</div>
+<div class="col-xs-6 col-sm-4 placeholder">
+  <span class="text-primary">
+  	访客数占比
+  </span>
+  <h3>#percentNumber("$!{data.percent}","#0.0")</h3>
+</div>
+<div class="col-xs-6 col-sm-4 placeholder">
+  <span class="text-primary">
+  	贡献浏览量
+  </span>
+  <h3>$!{data.pv}</h3>
+</div>

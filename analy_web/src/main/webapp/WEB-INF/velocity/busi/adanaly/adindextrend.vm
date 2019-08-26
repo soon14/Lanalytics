@@ -1,0 +1,80 @@
+#set($layout = "temp_layout.vm")
+<!--广告指标趋势 -->
+<div class="col-xs-12 col-sm-12 placeholder">
+	<h5 class="sub-header">
+		指标趋势
+	</h5>
+	<ul class="nav nav-tabs" id="adIndexTrendNav">
+        <li class="active"><a href="javascript:void(0);">趋势图</a></li>
+        <li ><a href="javascript:void(0);">详细列表</a></li>
+    </ul>
+	<div style="text-align:left">
+		<div id="adIndexTrendLine">
+        	<div class="table_data">
+             	<div>
+             		<label>指标：</label>
+             		<label class="checkbox-inline">
+            			<input type="checkbox" value="uvs" ckbType="1" name="adIndexTrendCkb" checked>访客数（UV）
+            		</label>
+            		<label class="checkbox-inline">
+            			<input type="checkbox" value="pvs"ckbType="1"  name="adIndexTrendCkb"> 访问量（PV）
+            		</label>
+            		<label class="checkbox-inline">
+            			<input type="checkbox" value="orderUvRates" ckbType="2"  name="adIndexTrendCkb"> 下单率
+            		</label>
+            		<label class="checkbox-inline">
+            			<input type="checkbox" value="payUvRates" ckbType="3" name="adIndexTrendCkb"> 支付成功率
+            		</label>
+            		</label>
+             	</div>
+            </div>
+            <div class="row placeholders">
+                <div class="col-xs-12 col-sm-12 placeholder">
+            		<div class="col-lg-12">
+            			 <div id="adIndexTrendLineChart" style="height:250px;"></div>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div id="adIndexTrendTable" style="display:none">
+		</div>
+		<script>
+    		adIndexLineChart = eChartInstant.init(document.getElementById('adIndexTrendLineChart'),eChartTheme);
+    		renderAdIndexLineChart(${data});
+    	
+			$("#adIndexTrendNav > li > a").click(function(){
+        		$("#adIndexTrendNav > li.active").removeClass("active");
+        		$(this).parent().addClass("active");
+        		$(this).blur();
+        		
+				if($(this).text() == "趋势图"){
+    				$("#adIndexTrendLine").show();
+            		$("#adIndexTrendTable").hide();
+				}else{
+					$("#adIndexTrendLine").hide();
+            		$("#adIndexTrendTable").show();
+					
+    				if( !$.trim($('#adIndexTrendTable').html()).length ) {
+						//加载第一页数据
+						queryadIndexTrendTable(1);
+    				}
+				}
+        	});
+			
+			function queryadIndexTrendTable(pageNo){
+				var params =  getAdIndexQueryParams();
+				params.adId = $request.getParameter("adId");
+				params.pageNo = pageNo
+				params.pageSize = 10;
+				
+				var queryCallBack = function(data){
+            		$("#adIndexTrendTablePager").pager({callback:function(pageNo){
+            			queryadIndexTrendTable(pageNo);
+            		}});
+            	}
+            	
+            	ajaxLoadPage(params,preUrl + "getAdIndexTrendTable", $("#adIndexTrendTable"),queryCallBack);
+			}
+		</script>
+	</div>
+</div>	

@@ -1,0 +1,52 @@
+#set($layout = "temp_layout.vm")
+<form class="form-inline fr">
+    <button id="exportTradeCategoryBtn" class="btn btn-default" type="button">导出</button>
+</form>
+<div >
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th col_name="parentCatName">&nbsp;</th>
+                <th col_name="catName">&nbsp;</th>
+                <th col_name="saleCount">总计销售数量</th>
+                <th col_name="saleMoney">总销售金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            #if($catSumMap && $catSumMap.keySet().size()>0)
+                #foreach($key in $catSumMap.keySet())
+                    #if($catSumMap.get($key) && $catSumMap.get($key).size()>0)
+                        #foreach($row in $catSumMap.get($key))
+                            <tr>
+                                #if($velocityCount == 1)
+                                    <td rowspan=$catSumMap.get($key).size() align="center" style="vertical-align:middle">$!{key}</td>
+                                #end
+                                <td>$!{row.catName}</td>
+                                <td>$!{row.saleCount}</td>
+                                <td>#moneyNumber("$!{row.saleMoney}","#0.00")</td>
+                            </tr>
+                        #end
+                    #end
+                #end
+                #else
+                    <tr>
+                        <td colspan="20">暂无数据</td>
+                    </tr>
+            #end
+        </tbody>
+    </table>
+</div>
+<div class="col-md-6">
+    <div id="saleCountPie" style="height:300px;"></div>
+</div>
+<div class="col-md-6">
+    <div id="saleMoneyPie" style="height:300px;"></div>
+</div>
+<script type="text/javascript">
+    $('#exportTradeCategoryBtn').click(function(){
+    	var params = getQueryParams();
+    	window.location = preUrl+'exportTradeCategorySum.xls';
+    });
+	
+	renderSalePieChart($chartData)
+</script>

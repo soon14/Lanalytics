@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <!-- 行为分析服务 -->
+    
+    <!-- 流量概况服务  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.FlowService" id="flowService" registry="analyReference"/>
+    <!-- 流量地图服务  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.FlowMapService" id="flowMapService" registry="analyReference"/>
+    <!-- 用户结构服务  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.VisitorStructureService" id="visitorStructureService" registry="analyReference"/>
+    <!-- 商品分析服务  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.GoodsAnalyService" id="goodsAnalyService" registry="analyReference"/>
+    <!-- 搜索排行服务  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.SearchRankingService" id="searchRankingService" registry="analyReference"/>
+    <!-- 异常商品服务  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.AbnormalGdsService" id="abnormalGdsService" registry="analyReference"/>
+    <!-- 自定义url  -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.UrlDefinitionService" id="urlDefinitionService" registry="analyReference"/>
+    <!-- 交易分析服务 -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.TradeService" id="tradeService" registry="analyReference"/>
+    <!-- 系统配置服务 -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.SystemConfigService" id="systemConfigService" registry="analyReference"/>
+    <!-- 促销分析服务 -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.PromService" id="promService" registry="analyReference"/>
+    <!-- 促销分析服务 -->
+    <dubbo:reference interface="com.ai.analy.service.interfaces.AdService" id="adService" registry="analyReference"/>
+</beans>

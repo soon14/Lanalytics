@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="confCenter" class="com.ai.analy.config.ConfigurationCenter" init-method="init" destroy-method="destory">
+		<constructor-arg value="127.0.0.1:2181" />
+		<constructor-arg value="10000" />
+		<constructor-arg value="D" />
+		<constructor-arg>
+			<list>
+				<value>/zkConf.properties</value>
+			</list>
+		</constructor-arg>
+	</bean>
+    
+    <bean id="flowService" class="com.ai.analy.service.impl.FlowServiceImpl"></bean>  
+    <bean id="flowMapService" class="com.ai.analy.service.impl.FlowMapServiceImpl"></bean>  
+    <bean id="visitorStructureService" class="com.ai.analy.service.impl.VisitorStructureServiceImpl"></bean>
+    <bean id="goodsAnalyService" class="com.ai.analy.service.impl.GoodsAnalyServiceImpl"></bean>
+    <bean id="searchRankingService" class="com.ai.analy.service.impl.SearchRankingServiceImpl"></bean>
+    <bean id="urlDefinitionService" class="com.ai.analy.service.impl.UrlDefinitionServiceImpl"></bean>
+    <bean id="abnormalGdsService" class="com.ai.analy.service.impl.AbnormalGdsServiceImpl"></bean>
+    <bean id="tradeService" class="com.ai.analy.service.impl.TradeServiceImpl"></bean>
+    <bean id="goodsRankService" class="com.ai.analy.service.impl.GoodsRankServiceImpl"></bean>
+	<bean id="iRecommendGoodsService" class="com.ai.analy.service.impl.RecommendGoodsServiceImpl"></bean>
+	<bean id="systemConfigService" class="com.ai.analy.service.impl.SystemConfigServiceImpl"></bean>
+	<bean id="promService" class="com.ai.analy.service.impl.PromServiceImpl"></bean>
+	<bean id="adService" class="com.ai.analy.service.impl.AdServiceImpl"></bean>
+</beans>

@@ -1,0 +1,23 @@
+<!--广告列表-->
+<div id="adIndexDiv" style="display:none">
+    <h4 class="text-left">
+        <i class="glyphicon glyphicon-equalizer"></i>
+        <b id="adIndexHead">广告指标明细</b>
+    </h4>
+	<head>
+		<style type="text/css">
+		
+		#adIndexDiv .nav > li > a {
+            padding: 5px 10px;
+			margin-top: 5px;
+        }
+		</style>
+	</head>
+	#parse("busi/adanaly/adindexparamsbar.vm")
+	
+	<div class="row placeholders">
+		<div id="adIndexOverviewDiv"></div>
+		
+		<div id="adIndexTrendDiv"></div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="流量地图")
+#set($sessionStaff = $session.getAttribute("analystaffSession"))
+<!--流量走向 -->
+
+<h2 class="sub-header">
+	<span class="small">$BUSI_TITLE</span>
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="流量地图是对店铺首页、店铺商品详情页的流量来源、店内路径、流量去向进行统计分析结果" ></i>
+</h2>
+
+<div class="panel panel-default">
+    #parse("busi/common/paramsbar.vm")
+	<div class="panel-body">
+		
+		<!--店铺-->
+		#if(${sessionStaff.shopId} != 0)
+    		<ul class="nav nav-tabs" id="targetId">
+    			#if($data && $data.size()>0)
+    				#foreach($row in $data)
+    					<li #if($velocityCount == 1)class="active"#end target="$!{row.pageCode}"><a  href="javascript:void(0);">$!{row.pageName}</a></li>
+    				#end
+    			#end
+            </ul>
+			
+			<div class="tab-content">
+    			<div class="row placeholders" id="flowMapOverviewId">
+    			</div>
+    			
+    			<!-- 流量来源 -->
+        		<h4 class="text-left sub-header">
+        			<i class="glyphicon glyphicon-equalizer"></i>
+        		 	<b>流量来源</b>
+        		 	<span id="exportFlowSourceBtn" class="pull-right btn btn-default btn-sm">
+    				导出
+    			    </span>
+        		</h4>
+    			<div class="table-responsive" id="sourceTableId">
+                </div>
+    			
+    			<!--店内路径 -->
+        		<h4 class="text-left">
+        			<i class="glyphicon glyphicon-equalizer"></i>
+        		 	<b>店内路径</b>
+        		</h4>
+        		<div id="flowDirectionDiv">
+                </div>
+    			
+    			<!-- 页面流量-->
+        		<h4 class="text-left sub-header">
+        			<i class="glyphicon glyphicon-equalizer"></i>
+        		 	<b>页面流量</b>
+        		 	<span id="exportPageFlowBtn" class="pull-right btn btn-default btn-sm">
+    				导出
+    			    </span>
+        		</h4>
+    			<div class="table-responsive" id="destTableId">
+                </div>
+			</div>
+		#else<!--全站点-->
+			<!-- 流量来源 -->
+    		<h4 class="text-left sub-header">
+    			<i class="glyphicon glyphicon-equalizer"></i>
+    		 	<b>流量来源</b>
+				<!-- TODO -->
+    		 	<span id="exportFlowSourceBtn" class="pull-right btn btn-default btn-sm">
+				导出
+			    </span>
+    		</h4>
+			<div class="table-responsive" id="refDomainTableId">
+            </div>
+			
+			<!-- 页面流量-->
+    		<h4 class="text-left sub-header">
+    			<i class="glyphicon glyphicon-equalizer"></i>
+    		 	<b>页面流量</b>
+    		 	<span id="exportPageFlowBtn" class="pull-right btn btn-default btn-sm">
+				导出
+			    </span>
+    		</h4>
+			<div class="table-responsive" id="destTableId">
+            </div>
+			
+			<!--页面流量查询-->
+			<h4 class="text-left">
+            	<i class="glyphicon glyphicon-equalizer"></i>
+             	<b>页面流量查询 </b>
+			</h4>
+    		<div class="panel panel-default">
+        		<div class="panel-body">
+            	    <form class="form-inline">
+            		  <select class="form-control" style="width:450px" id="url_select">
+                          <option value="" selected >URL名称</option>
+        				  #if($urls && $urls.size()>0)
+        					#foreach($row in $urls)
+        					    <option value="$!{row.url}">$!{row.name}（$!{row.url}）</option>
+        					#end
+        				  #end
+                      </select>
+                      <div class="form-group">
+                        <input id="url_input" type="text" class="form-control" style="width:350px" placeholder="请输入URL">
+                      </div>
+            		  <button class="btn btn-default" id="pageUrlSearchButtonId" type="button"">查询</button>
+                    </form>
+        		</div>
+            </div>
+    		<div class="table-responsive" id="pageUrlQueryTableId">
+            </div>
+		#end
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="FlowMapDateModal">
+  <div class="modal-dialog modal-xm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="FlowMapDateModalLabel">标题</h3>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" id="FlowMapTableId">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/flowanaly/flowmap.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

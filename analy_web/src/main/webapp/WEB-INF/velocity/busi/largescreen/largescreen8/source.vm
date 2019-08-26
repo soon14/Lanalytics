@@ -1,0 +1,34 @@
+#set($layout = "temp_layout.vm")
+#if($sourcePage.recordList && $sourcePage.recordList.size()>0)
+	#foreach($sourcePv in $sourcePage.recordList)
+		 <li>
+			<div class="t_item">
+				<div class="rank">$velocityCount<i class="glyphicon glyphicon-triangle-bottom"></i></div>
+				<dl>
+					<dt><p><span class="itempageName">#formatUrlToName("$!{sourcePv.pageName}")</span></p></dt>
+					<dd class="blue">
+						<span>访客数</span>
+						<b>$!{sourcePv.uv}</b>
+					</dd>
+					<dd class="orange">
+						<span>占比</span>
+						<b>#percentNumber("$!{sourcePv.scale}","#0.0")</b>
+					</dd>
+				</dl>
+			</div>
+		 </li>
+	#end
+#end
+
+<script type="text/javascript">
+    $(document).ready(function(){
+	    
+	    $("span.itempageName").each(function(i,d){
+		    var text = $(d).text();
+			if(text.length > 16){
+			    $(d).text(text.substring(0,16)+"...");
+			}
+		});
+		
+	});
+</script>

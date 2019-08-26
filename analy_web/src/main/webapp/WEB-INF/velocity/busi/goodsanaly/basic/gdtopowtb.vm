@@ -1,0 +1,54 @@
+#set($layout = "temp_layout.vm")
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>排名</th>
+            <th width="300px">商品名称</th>
+            <th>访客量</th>
+            <th>访客量占比</th>
+            <th>详情页跳失率</th>
+            <th>商品下单转化率</th>
+            <th>交易量</th>
+            <th>交易额</th>
+        </tr>
+    </thead>
+    <tbody>
+        #if($data.recordList && $data.recordList.size()>0)
+            #foreach($row in $data.recordList)
+                #set($rankIndex = $velocityCount + $data.pageSize * ($data.currentPage - 1))
+                <tr>
+                    <td valign="middle">
+                        <span class="label label-warning">$rankIndex</span>
+                    </td>
+                    <td>
+                        <dl class="table_img" style="height:50px">
+                            <dt>
+                                <img class="imgBgSmall" width="50" height="50" src='#getGdsImgUrl("$!{row.picId}_50x50!.jpg")'/>
+                            </dt>
+                            <dd style="width:220px; white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="$!{row.gdsName} $!{row.skuProp}">$!{row.gdsName} $!{row.skuProp}&nbsp;</dd>
+                            <dd>价格：#moneyNumber("$!{row.price}","#0.00")&nbsp;&nbsp;库存：$!{row.stock}&nbsp;</dd>
+                        </dl>
+                    </td>
+                    <td>$!{row.uv}</td>
+                    <td>#percentNumber("$!{row.uvPercent}","#0.0")</td>
+                    <td>#percentNumber("$!{row.exitRate}","#0.0")</td>
+                    <td>#percentNumber("$!{row.orderUvRate}","#0.0")</td>
+                    <td>$!{row.payCount}</td>
+                    <td>#moneyNumber("$!{row.payMoney}","#0.00")</td>
+                </tr>
+			#end
+		#else
+                <tr>
+                    <td colspan="20">暂无数据</td>
+                </tr>
+		#end
+		
+    </tbody>
+</table>
+
+#if($showPage == true)
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="TopRateModalPagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+    </span>
+</div>
+#end

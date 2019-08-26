@@ -1,0 +1,27 @@
+##set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="哎呀，你访问的页面不见了~~")
+<link rel="stylesheet" type="text/css" href="http://www.woego.cn/woego/css/errorAndOther.css"/>
+<style type="text/css">
+	.errorWord{float:right;width:400px;margin-top:0;padding:0 0 80px;}
+</style>
+<div class="errorMain">
+	<div class="boxShadow"></div>
+	<div class="errorSection">
+        <div class="errorWord">
+        	<p><strong>哎呀，没有访问权限~~</strong></p>
+            <dl>
+            	<dt>最有可能的原因是：</dt>
+                <dd>还未分配相应菜单的权限;</dd>
+				<dd>还未分配店铺;</dd>
+                <dd>获取权限信息失败;</dd>
+            </dl>
+            <p><font>可以点击链接继续浏览：</font></p>
+            <p>
+            	 <a href="#">&nbsp;</a>
+				|<a href="${aiTool.getSysConf('pmphMainPage')}">返回人卫智城</a>
+			</p>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

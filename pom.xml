@@ -1,0 +1,118 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <ecp-analy-version>1.0.0-SNAPSHOT</ecp-analy-version>
+    </properties>
+
+    <groupId>com.ai.ecp</groupId>
+    <artifactId>ecp-analytics-webapp</artifactId>
+    <version>${ecp-analy-version}</version>
+    <packaging>pom</packaging>
+
+    <name>analy_parent</name>
+    <url>http://maven.apache.org</url>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>Internal Releases</name>
+            <url>http://10.8.0.201:8082/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>central</id>
+            <name>Internal Snapshots</name>
+            <url>http://10.8.0.201:8082/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.ai.ecp</groupId>
+                <artifactId>ecp-analytics-webapp</artifactId>
+                <version>${ecp-analy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ai.ecp</groupId>
+                <artifactId>ecp-analytics-common</artifactId>
+                <version>${ecp-analy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ai.ecp</groupId>
+                <artifactId>ecp-analytics-service</artifactId>
+                <version>${ecp-analy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ai.ecp</groupId>
+                <artifactId>ecp-analytics-httpsv</artifactId>
+                <version>${ecp-analy-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+		<!-- junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>2.0.2-beta</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.6.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.6.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4-rule-agent</artifactId>
+			<version>1.6.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.18.2-GA</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
+	</dependencies>
+    
+    
+    <build>
+        <defaultGoal>compile</defaultGoal>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <modules>
+        <module>analy_common</module>
+        <module>analy_service</module>
+        <module>analy_web</module>
+        <module>analy_httpsv</module>
+    </modules>
+</project>

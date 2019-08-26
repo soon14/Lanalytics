@@ -1,0 +1,53 @@
+<div class="data_centre">
+	<h2>
+		<i class="glyphicon glyphicon-hdd"></i>
+		<span>数据分析中心</span>
+	</h2>
+</div>
+
+#set($sessionStaff = $session.getAttribute("analystaffSession"))
+#set($platformMenuList = $session.getAttribute("platformMenuSession"))
+#set($analyMenuList = $session.getAttribute("analymenuSession"))
+
+<!--全平台-->
+#if(${sessionStaff.shopId} == 0)
+	<ul class="mtree bubba">
+    #foreach($analyMenu in $platformMenuList)
+    	<li>
+	        <a menuid="$!{analyMenu.menuId}" href="#">$!{analyMenu.menuTitle}</a>
+			#displayMenus($analyMenu.menuList)
+			#displayMenus($analyMenu.catList)
+        </li>
+    #end
+    </ul>
+<!--店铺-->
+#elseif($analyMenuList && $analyMenuList.size()>0)
+    <ul class="mtree bubba">
+    #foreach($analyMenu in $analyMenuList)
+    	<li>
+	        <a menuid="$!{analyMenu.menuId}" href="#">$!{analyMenu.menuTitle}</a>
+			#displayMenus($analyMenu.menuList)
+			#displayMenus($analyMenu.catList)
+        </li>
+    #end
+    </ul>
+#else
+	未分配菜单
+#end
+
+<!--展现 -->
+#macro(displayMenus $menuList)
+	#if($menuList && $menuList.size()>0)
+		<ul>
+    	#foreach($menu in $menuList)
+        	<li>
+    	        <a menuid="$!{menu.menuId}" href=#if("$!{menu.menuUrl}" == "") "#" #else "$CONTEXT_PATH$!{menu.menuUrl}" id="funMenu_analy_$!{menu.menuId}" #end>$!{menu.menuTitle}</a>
+    			#displayMenus($menu.menuList)
+    			#displayMenus($menu.catList)
+            </li>
+		#end
+        </ul>
+	#end
+#end
+
+<script src="$CONTEXT_PATH/js/menu.js" type="text/javascript" ></script>

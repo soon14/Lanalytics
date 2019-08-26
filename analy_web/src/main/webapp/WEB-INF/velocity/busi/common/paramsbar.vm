@@ -1,0 +1,168 @@
+<div class="panel-heading clearfix">
+	<ul class="fl nav nav-pills" id="params_date">
+		<li param="0" role="presentation" class="active"><a href="javascript:void(0);">今天</a></li>
+		<li param="1" role="presentation"><a href="javascript:void(0);">昨天</a></li>
+		<li param="6" role="presentation"><a href="javascript:void(0);">最近7天</a></li>
+		<li param="29" role="presentation"><a href="javascript:void(0);">最近30天</a></li>
+    </ul>
+	<form class="form-inline fl">
+        <div class="form-group">
+            <label>选择时间段：</label>
+            <div id="inp_dateFrom" class="input-group date">
+                <input class="form-control wt100" style="width:125px;background:#fff;" type="text" value="$date.get('yyyy-MM-dd')" placeholder="开始时间">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>到</label>
+            <div id="inp_dateTo" class="input-group date">
+                <input class="form-control wt100" style="width:125px;background:#fff;" type="text" value="$date.get('yyyy-MM-dd')" placeholder="结束时间">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+		<button id="searchButtonId" class="btn btn-default" type="button">查看</button>
+    </form>
+    <ul class="fr nav nav-pills" id="params_source">
+    	<li param="0" role="presentation"  class="active"><a href="javascript:void(0);">全部</a></li>
+		<li param="1" role="presentation"><a href="javascript:void(0);">PC端</a></li>
+		<li param="2" role="presentation"><a href="javascript:void(0);">无线</a></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+    var g_StartDate = 3600;//开始时间范围
+    var g_MaxDateRange = 3600; //最大时间范围
+	var g_currentYear = $date.get("yyyy");
+	var g_currentMonth= $date.get("M")-1;
+	var g_currentDay = $date.get("d");
+	var g_currentDate = new Date(g_currentYear,g_currentMonth,g_currentDay);
+	
+    $(document).ready(function(){
+	    //事件处理
+    	//时间选择
+    	$("#params_date > li > a").click(function(){
+    		$("#params_date > li.active").removeClass("active");
+    		$(this).parent().addClass("active");
+			
+			var source = $(this).parent().attr("param");
+			
+			setBeginAndEndDate();
+			
+    		queryDate(getQueryParams());
+    	});
+    	
+    	//来源选择
+    	$("#params_source > li > a").click(function(){
+    		$("#params_source > li.active").removeClass("active");
+    		$(this).parent().addClass("active");
+    		queryDate(getQueryParams());
+    	});
+		
+		//查看按钮
+		$("#searchButtonId").click(function(){
+		    $("#params_date > li.active").removeClass("active");
+			$(this).blur();
+			queryDate(getQueryParams());
+		});
+		
+		//初始化日期控件
+        function initDatetimepicker(){
+		    var dateFromObj = $('#inp_dateFrom').datetimepicker();
+        	var dateToObj = $('#inp_dateTo').datetimepicker();
+			
+			setBeginAndEndDate();
+			
+        	dateFromObj.on(
+        		"changeDate",
+        	    function(ev){
+        			var dateFrom = dateFromObj.datetimepicker("getDate");
+        			var dateTo = dateToObj.datetimepicker("getDate");
+					var resetDateTo = false;
+        			if(dateFrom-dateTo>0){
+        				dateTo = dateFrom;
+						resetDateTo = true;
+        			}
+        			
+        		    //dateToObj.datetimepicker('setStartDate',dateFrom);
+					//var endDate = new Date(dateFrom.getTime()+g_MaxDateRange*24*60*60*1000);
+        		    //dateToObj.datetimepicker('setEndDate', endDate);
+        		    
+					if(resetDateTo == true){
+					    dateToObj.datetimepicker("setDate",dateFrom);
+						dateToObj.datetimepicker('show');
+					}
+        	    }
+        	);
+			
+			dateToObj.on(
+        		"changeDate",
+        	    function(ev){
+        			var dateFrom = dateFromObj.datetimepicker("getDate");
+        			var dateTo = dateToObj.datetimepicker("getDate");
+					var resetDateTo = false;
+        			if(dateFrom - dateTo >0){
+        				dateFromObj.datetimepicker("setDate",dateTo);
+        			}
+        	    }
+        	);
+        }
+		
+		function compare2Date(date1,data2){
+		   if(Math.abs(date1.getTime() - data2.getTime()) > g_MaxDateRange*24*60*60*1000){
+		       return false;
+		   }else{
+		       return true;
+		   }
+		}
+		
+		function setBeginAndEndDate(){
+		    var dateSource = $("#params_date > li.active").attr("param");
+			dateSource = parseInt(dateSource);
+			var dateFrom = new Date(g_currentDate.getTime() - dateSource*24*60*60*1000);
+			var dataTo = g_currentDate;
+			if(dateSource == 1){
+			    dataTo = dateFrom;
+			}
+			if(dateSource>1){
+			    dataTo = new Date(g_currentDate.getTime() - 1*24*60*60*1000);
+				dateFrom = new Date(dataTo.getTime() - dateSource*24*60*60*1000);
+			}
+			
+			//设置时间
+        	var dateFromObj = $('#inp_dateFrom').datetimepicker();
+			var dateToObj = $('#inp_dateTo').datetimepicker();
+			
+			//var initEndDate = new Date(dateFrom.getTime()+g_MaxDateRange*24*60*60*1000);
+            //dateToObj.datetimepicker('setEndDate', initEndDate);
+			
+			//var startDate = new Date(g_currentDate.getTime()-g_StartDate*24*60*60*1000);
+			var startDate = new Date(2015,10,28);
+            dateFromObj.datetimepicker('setStartDate', startDate);
+			dateToObj.datetimepicker('setStartDate', startDate);
+			
+			dateFromObj.datetimepicker('setEndDate', g_currentDate);
+			dateToObj.datetimepicker('setEndDate', g_currentDate);
+			
+			dateFromObj.datetimepicker("setDate",dateFrom);
+			dateToObj.datetimepicker("setDate",dataTo);
+		 }
+		
+		initDatetimepicker();
+	});
+	
+	function getQueryParams(){
+		
+		var dateFrom = $('#inp_dateFrom').datetimepicker("getFormattedDate");
+		var dateTo = $('#inp_dateTo').datetimepicker("getFormattedDate");
+		var source = $("#params_source > li.active").attr("param");
+		
+    	var params = {
+    		source:source,
+			dateFrom:dateFrom,
+			dateTo:dateTo
+    	};
+		
+		return params;
+	}
+</script>

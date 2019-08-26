@@ -1,0 +1,49 @@
+#set($layout = "temp_layout.vm")
+#parse("sys/sys_param.vm")
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>编码</th>
+      <th>站点</th>
+      <th>店铺名称</th>
+      <th>促销名称</th>
+      <th>促销类型</th>
+      <th>状态</th>
+      <th>促销开始时间</th>
+      <th>促销结束时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    #if($data.recordList && $data.recordList.size()>0)
+    	#foreach($row in $data.recordList)
+		    <tr>
+		      <td>$!{row.id}</td>
+		      <td>$!{row.siteName}</td>
+		      <td>$!{row.shopName}</td>
+		      <td>$!{row.promTheme}</td>
+		      <td>$!{row.promTypeName}</td>
+		      <td>
+		        #if($row.status == 10) 
+		        	生效
+		        #elseif($row.status == 20)
+		        	失效
+		        #else
+		        	删除
+		        #end
+		      </td>
+		      <td>#dateFormat($!{row.startTime},"yyyy-MM-dd")</td>
+		      <td>#dateFormat($!{row.endTime},"yyyy-MM-dd")</td>
+		      <td><a href="javascript:void(0);" onclick="loadPromDetail($!{row.id},'$!{row.promTheme}','#dateFormat($!{row.startTime},"yyyy-MM-dd")','#dateFormat($!{row.endTime},"yyyy-MM-dd")')">指标明细</a></td>
+		    </tr>
+		#end
+	#else
+        <tr><td colspan="20">暂无数据</td></tr>
+    #end
+  </tbody>
+</table>
+<div  class="pagerBar" style="margin-top:0px;">
+    <span id="promTablePagerId" data-count="$!{data.recordCount}" data-size="$!{data.pageSize}" data-currentindex="$!{data.currentPage}" >
+	</span>
+</div>	    

@@ -1,0 +1,49 @@
+#parse("sys/sys_param.vm")
+#set($BUSI_TITLE="商品效果明细")
+
+<link href="$CSS_PATH/tablesorter.default.css" rel="stylesheet">
+
+<h2 class="sub-header">
+	<span class="small">$BUSI_TITLE</span>
+	<i class="glyphicon glyphicon-question-sign" data-trigger="hover" data-toggle="popover" title="" data-content="商品效果明细是对店铺所有商品的经营效果进行展示，展示的字段包括单品名称、单品状态、访客量、浏览量、详情页跳出率、下单转化率、平均下单件数、下单-支付转化率、支付转化率、交易量、交易金额，用户可以点击对应字段进行排序查看。" ></i>
+</h2>
+	
+<div class="panel panel-default">
+	#parse("busi/common/paramsbar.vm")
+	<div class="panel-body">
+        <h4 class="text-left">
+        	<i class="glyphicon glyphicon-equalizer"></i>
+         	<b>商品效果明细 </b>
+        </h4>
+		<div class="panel panel-default">
+		<div class="panel-body">
+    	    <form class="form-inline">
+    		  <select class="form-control wt200" id="catId">
+                  <option value="" selected >全部分类</option>
+				  #if($cats && $cats.size()>0)
+					#foreach($row in $cats)
+					    <option value="$!{row.catId}">$!{row.catName}</option>
+					#end
+				  #end
+				  <!--
+                  <option value="1">手机终端</option>
+                  <option value="2">3C数码/配件</option>
+                  <option value="3">号卡/充值卡</option>
+				   -->
+              </select>
+              <div class="form-group">
+                <input id="gdsName" type="text" class="form-control wt250" placeholder="请输入商品名称">
+				<input id="skuIsbn" type="text" class="form-control wt250" placeholder="请输入ISBN">
+              </div>
+    		  <button class="btn btn-default" id="searchButtonId" type="button" onclick="searchDatas()">查询</button>
+            </form>
+		</div>
+        </div>
+		<div class="table-responsive" id="goodsDetailTableId">
+        </div>
+    </div>
+</div>
+
+<script src="$CONTEXT_PATH/js/jquery.tablesorter.min.js" type="text/javascript" ></script>
+<script src="$CONTEXT_PATH/js/pager.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>
+<script src="$BUSIJS_PATH/goodsanaly/goodsdetail.js?ver=$!{JS_VERSION}" type="text/javascript" ></script>

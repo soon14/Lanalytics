@@ -1,0 +1,46 @@
+#set($layout = "temp_layout.vm")
+<form class="form-inline fr">
+    <button id="exportTradeOrdersTypeBtn" class="btn btn-default" type="button">导出</button>
+</form>
+<div >
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th col_name="ordersType">下单次数</th>
+                <th col_name="staffNum">客户数量</th>
+                <th col_name="payAmount">购买金额</th>
+                <th col_name="avgPayAmount">平均消费金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            #if($list && $list.size()>0)
+                #foreach($row in $list)
+                    <tr>
+                        <td>下单$!{row.ordersType}次</td>
+                        <td>$!{row.staffNum}</td>
+                        <td>#moneyNumber("$!{row.payAmount}","#0.00")</td>
+                        <td>#moneyNumber("$!{row.avgPayAmount}","#0.00")</td>
+                    </tr>
+                #end
+                #else
+                    <tr>
+                        <td colspan="20">暂无数据</td>
+                    </tr>
+            #end
+        </tbody>
+    </table>
+</div>
+<div class="col-md-6">
+    <div id="staffNumPie" style="height:300px;"></div>
+</div>
+<div class="col-md-6">
+    <div id="payAmountPie" style="height:300px;"></div>
+</div>
+<script type="text/javascript">
+    $('#exportTradeOrdersTypeBtn').click(function(){
+    	var params = getQueryParams();
+    	window.location = preUrl+'exportTradeOrdersTypeSum.xls';
+    });
+	
+    renderOrdersTypePieChart($chartData);
+</script>

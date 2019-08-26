@@ -1,0 +1,42 @@
+#parse("sys/sys_param.vm")
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="$IMAGE_PATH/logo.ico" type="image/x-icon" rel="icon"/>
+		<link href="$IMAGE_PATH/logo.ico" type="image/x-icon" rel="shortcut icon"/>
+		<link href="$IMAGE_PATH/logo.ico" type="image/x-icon" rel="bookmark"/>
+		<title>$!{BUSI_TITLE}</title>
+		#parse("sys/sys_header.vm")
+	</head>
+	<body>
+		
+		<!-- topbar starts -->
+    	<nav class="navbar navbar-inverse navbar-fixed-top">
+    		<div class="container-fluid">
+    			#parse("sys/main_header.vm")
+    		</div>
+    	</nav>
+	    <!-- topbar ends -->
+		
+		<div class="container-fluid">
+			<div class="row">
+				<!-- 侧边栏 -->
+				<div class="col-sm-3 col-md-2 sidebar">
+					<!-- left menu starts -->
+                    #parse("sys/main_menu.vm")
+                    <!-- left menu ends -->
+                </div>
+				<!-- 主要内容 -->
+    			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+					$screen_content
+                </div>
+            </div>
+        </div>
+		<!-- footer starts -->
+			#parse("sys/main_footer.vm")
+		<!-- footer end -->
+    </body>
+</html>

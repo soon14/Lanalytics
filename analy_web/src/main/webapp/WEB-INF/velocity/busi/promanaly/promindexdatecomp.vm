@@ -1,0 +1,4 @@
+#set($layout = "temp_layout.vm")
+<script>
+	renderDateCompData(${data});
+</script>
